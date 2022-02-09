@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 11:11:50 by conguyen          #+#    #+#             */
-/*   Updated: 2022/02/09 13:51:21 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/02/09 14:08:32 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,10 @@ void	render_image(int **int_array, int height, int length)
 	t_data		data;
 
 	mlx = mlx_init();
-	win = mlx_new_window(mlx, 800, 800, "fdf 42");
+	win = mlx_new_window(mlx, 1150, 1000, "fdf 42");
 	data.mlx = mlx;
 	data.win = win;
-	data.img = mlx_new_image(mlx, 800, 800);
+	data.img = mlx_new_image(mlx, 1150, 1000);
 	data.addr = mlx_get_data_addr(data.img, &data.bits_per_pixel, &data.line_length,
 								&data.endian);					
 	for (int x = 0; x < height; x++)
@@ -79,9 +79,9 @@ void	render_image(int **int_array, int height, int length)
 		for (int y = 0; y < length; y++)
 		{
 			if (int_array[x][y] == 0)
-				my_mlx_pixel_put(&data, y * 35 + 50, x * 35 + 50, 0x00FFFFFF);
+				my_mlx_pixel_put(&data, (y * 35 + 450) - (x * 40), (x * 35 + 50) + (y * 20), 0x00FFFFFF);
 			if (int_array[x][y] == 10)
-				my_mlx_pixel_put(&data, y * 35 + 50, x * 35 + 50, 0x00FF0000);
+				my_mlx_pixel_put(&data, (y * 35 + 450) - (x * 40), (x * 35 + 50) + (y * 20), 0x00FF0000);
 		}
 	}
 	mlx_put_image_to_window(mlx, win, data.img, 0, 0);
