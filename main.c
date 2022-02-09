@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 11:11:50 by conguyen          #+#    #+#             */
-/*   Updated: 2022/02/09 09:25:54 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/02/09 13:51:21 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ typedef struct s_data
 	int		endian;
 }				t_data;
 
-// int esc_key(int keycode, void *param)
-// {
-// 	if (keycode == 65307)
-// 		exit(0);
-// }
+int esc_key(int keycode, void *param)
+{
+	if (keycode == 65307)
+		exit(0);
+}
 
 // int mouse_event(int button, int x, int y, void *param)
 // {
@@ -52,6 +52,42 @@ typedef struct s_data
 // 	mlx_key_hook(win, &esc_key, 0);
 // 	mlx_loop(mlx);
 // }
+
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+{
+	char	*dst;
+
+	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+	*(unsigned int*)dst = color;
+}
+
+void	render_image(int **int_array, int height, int length)
+{
+	void		*mlx;
+	void		*win;
+	t_data		data;
+
+	mlx = mlx_init();
+	win = mlx_new_window(mlx, 800, 800, "fdf 42");
+	data.mlx = mlx;
+	data.win = win;
+	data.img = mlx_new_image(mlx, 800, 800);
+	data.addr = mlx_get_data_addr(data.img, &data.bits_per_pixel, &data.line_length,
+								&data.endian);					
+	for (int x = 0; x < height; x++)
+	{
+		for (int y = 0; y < length; y++)
+		{
+			if (int_array[x][y] == 0)
+				my_mlx_pixel_put(&data, y * 35 + 50, x * 35 + 50, 0x00FFFFFF);
+			if (int_array[x][y] == 10)
+				my_mlx_pixel_put(&data, y * 35 + 50, x * 35 + 50, 0x00FF0000);
+		}
+	}
+	mlx_put_image_to_window(mlx, win, data.img, 0, 0);
+	mlx_key_hook(win, &esc_key, 0);
+	mlx_loop(mlx);
+}
 
 void	free_str_arr(char **arr)
 {
@@ -123,14 +159,15 @@ int	main(void)
 		free(lines);
 		x++;
 	}
-	for (int y = 0; y < x; y++)
-	{
-		for (int z = 0; z <= len; z++)
-		{
-			printf("%d", int_arr[y][z]);
-		}
-		printf("\n");
-	}
-	printf("%d\n", len);
+	// for (int y = 0; y < x; y++)
+	// {
+	// 	for (int z = 0; z <= len; z++)
+	// 	{
+	// 		printf("%d", int_arr[y][z]);
+	// 	}
+	// 	printf("\n");
+	// }
+	// printf("%d\n", len);
+	render_image(int_arr, x, len);
 	return (0);
 }
