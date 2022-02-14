@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 11:11:50 by conguyen          #+#    #+#             */
-/*   Updated: 2022/02/11 14:55:18 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/02/14 11:32:09 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,6 @@ void	render_image(int **int_array, int height, int length)
 	t_data		data;
 	t_linedata	pixel;
 
-
 	mlx = mlx_init();
 	win = mlx_new_window(mlx, 1150, 1000, "fdf 42");
 	data.mlx = mlx;
@@ -145,8 +144,6 @@ void	render_image(int **int_array, int height, int length)
 			pixel.y2 = ((x) * 35 + 50) + ((y + 1) * 20);
 			pixel.dx = abs(pixel.x2 - pixel.x1);
 			pixel.dy = abs(pixel.y2 - pixel.y1);
-			//printf("start = %d,%d, end = %d,%d\n", pixel.x1, pixel.y1, pixel.x2, pixel.y2);
-			//exit (0);
 			if (int_array[x][y] == 10 && int_array[x][y + 1] == 10)
 			{
 				if (pixel.dx > pixel.dy)
@@ -155,20 +152,15 @@ void	render_image(int **int_array, int height, int length)
 					draw_line(data, pixel.y1, pixel.x1, pixel.y2, pixel.x2, 1, pixel.dy, pixel.dx, 0x00FF0000);
 			}
 			else
-			//my_mlx_pixel_put(&data, (y * 35 + 450) - (x * 40), (x * 35 + 50) + (y * 20), 0x00FFFFFF);
-			// if (y == 2)
-			// 	break ;
 			{
 				if (pixel.dx > pixel.dy)
 					draw_line(data, pixel.x1, pixel.y1, pixel.x2, pixel.y2, 0, pixel.dx, pixel.dy, 0x00FFFFFF);
 				else
 					draw_line(data, pixel.y1, pixel.x1, pixel.y2, pixel.x2, 1, pixel.dy, pixel.dx, 0x00FFFFFF);
 			}
-			// if (y == 2)
-			// 		break ;
 		}
 	}
-	for (int x = 0; x < height; x++)
+	for (int x = 0; x < height - 1; x++)
 	{
 		for (int y = 0; y <= length; y++)
 		{
@@ -178,8 +170,6 @@ void	render_image(int **int_array, int height, int length)
 			pixel.y2 = ((x + 1) * 35 + 50) + ((y) * 20);
 			pixel.dx = abs(pixel.x2 - pixel.x1);
 			pixel.dy = abs(pixel.y2 - pixel.y1);
-			//printf("start = %d,%d, end = %d,%d\n", pixel.x1, pixel.y1, pixel.x2, pixel.y2);
-			//exit (0);
 			if (int_array[x][y] == 10 && int_array[x + 1][y] == 10)
 			{
 				if (pixel.dx > pixel.dy)
@@ -188,17 +178,12 @@ void	render_image(int **int_array, int height, int length)
 					draw_line(data, pixel.y1, pixel.x1, pixel.y2, pixel.x2, 1, pixel.dy, pixel.dx, 0x00FF0000);
 			}
 			else
-			//my_mlx_pixel_put(&data, (y * 35 + 450) - (x * 40), (x * 35 + 50) + (y * 20), 0x00FFFFFF);
-			// if (y == 2)
-			// 	break ;
 			{
 				if (pixel.dx > pixel.dy)
 					draw_line(data, pixel.x1, pixel.y1, pixel.x2, pixel.y2, 0, pixel.dx, pixel.dy, 0x00FFFFFF);
 				else
 					draw_line(data, pixel.y1, pixel.x1, pixel.y2, pixel.x2, 1, pixel.dy, pixel.dx, 0x00FFFFFF);
 			}
-			// if (y == 2)
-			// 		break ;
 		}
 	}
 	mlx_put_image_to_window(mlx, win, data.img, 0, 0);
