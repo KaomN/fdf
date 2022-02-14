@@ -6,63 +6,11 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 11:11:50 by conguyen          #+#    #+#             */
-/*   Updated: 2022/02/14 12:14:52 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/02/14 12:47:17 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mlx_linux/mlx.h"
-#include "libft/libft.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <math.h>
-
-typedef struct s_data
-{
-	void	*mlx;
-	void	*win;
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-}				t_data;
-
-typedef struct s_linedata
-{
-	int		x1;
-	int		y1;
-	int		x2;
-	int		y2;
-	double	dx;
-	double	dy;
-}				t_linedata;
-
-int	esc_key(int keycode, void *param)
-{
-	if (keycode == 65307)
-		exit(0);
-}
-
-// int mouse_event(int button, int x, int y, void *param)
-// {
-// 	t_program *tutorial = param;
-// 	mlx_pixel_put(tutorial->mlx, tutorial->win, 640/2, 360/2, 0xFFFFFF);
-// 	return (1);
-// }
-
-// int main(void)
-// {
-// 	void		*mlx;
-// 	void		*win;
-// 	t_program	tutorial;
-
-// 	mlx = mlx_init();
-// 	win = mlx_new_window(mlx, 800, 800, "Event Parameters");
-// 	tutorial.mlx = mlx;
-// 	tutorial.win = win;
-// 	mlx_key_hook(win, &esc_key, 0);
-// 	mlx_loop(mlx);
-// }
+#include "fdf.h"
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
@@ -70,87 +18,6 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
 	*(unsigned int *)dst = color;
-}
-
-int	increment_decrement(t_linedata pixel, char ch)
-{
-	if (ch == 'x')
-	{
-		if (pixel.x1 < pixel.x2)
-			pixel.x1++;
-		else
-			pixel.x1--;
-		return (pixel.x1);
-	}
-	if (ch == 'y')
-	{
-		if (pixel.y1 < pixel.y2)
-			pixel.y1++;
-		else
-			pixel.y1--;
-		return (pixel.y1);
-	}
-	return (0);
-}
-
-void	draw_line_dx(t_data data, t_linedata pixel, int check, int color)
-{
-	int	pk;
-	int	i;
-
-	pk = 2 * pixel.dy - pixel.dx;
-	i = -1;
-	while (++i <= pixel.dx)
-	{
-		pixel.x1 = increment_decrement(pixel, 'x');
-		if (pk < 0)
-		{
-			if (check == 0)
-				my_mlx_pixel_put(&data, pixel.x1, pixel.y1, color);
-			else
-				my_mlx_pixel_put(&data, pixel.y1, pixel.x1, color);
-			pk = pk + 2 * pixel.dy;
-		}
-		else
-		{
-			pixel.y1 = increment_decrement(pixel, 'y');
-			if (check == 0)
-				my_mlx_pixel_put(&data, pixel.x1, pixel.y1, color);
-			else
-				my_mlx_pixel_put(&data, pixel.y1, pixel.x1, color);
-			pk = pk + 2 * pixel.dy - 2 * pixel.dx;
-		}
-	}
-}
-
-void	draw_line_dy(t_data data, t_linedata pixel, int check, int color)
-{
-	int	pk;
-	int	i;
-
-	pk = 2 * pixel.dx - pixel.dy;
-	i = -1;
-	while (++i <= pixel.dy)
-	{
-		pixel.y1 = increment_decrement(pixel, 'y');
-		if (pk < 0)
-		{
-			if (check == 0)
-				my_mlx_pixel_put(&data, pixel.y1, pixel.x1, color);
-			else
-				my_mlx_pixel_put(&data, pixel.y1, pixel.x1, color);
-			pk = pk + 2 * pixel.dx;
-		}
-		else
-		{
-			pixel.x1 = increment_decrement(pixel, 'x');
-			if (check == 0)
-				my_mlx_pixel_put(&data, pixel.y1, pixel.x1, color);
-			else
-				my_mlx_pixel_put(&data, pixel.x1, pixel.y1, color);
-			pk = pk + 2 * pixel.dx - 2 * pixel.dy;
-		}
-	}
 }
 
 void	render_image(int **int_array, int height, int length)
@@ -165,8 +32,8 @@ void	render_image(int **int_array, int height, int length)
 	data.mlx = mlx;
 	data.win = win;
 	data.img = mlx_new_image(mlx, 1150, 1000);
-	data.addr = mlx_get_data_addr(data.img, &data.bits_per_pixel, &data.line_length,
-								&data.endian);					
+	data.addr = mlx_get_data_addr(data.img, &data.bits_per_pixel,
+			&data.line_length, &data.endian);
 	for (int x = 0; x < height; x++)
 	{
 		for (int y = 0; y < length; y++)
@@ -181,19 +48,15 @@ void	render_image(int **int_array, int height, int length)
 			{
 				if (pixel.dx > pixel.dy)
 					draw_line_dx(data, pixel, 0, 0x00FF0000);
-					//draw_line(data, pixel.x1, pixel.y1, pixel.x2, pixel.y2, 0, pixel.dx, pixel.dy, 0x00FF0000);
 				else
 					draw_line_dy(data, pixel, 1, 0x00FF0000);
-					//draw_line(data, pixel.y1, pixel.x1, pixel.y2, pixel.x2, 1, pixel.dy, pixel.dx, 0x00FF0000);
 			}
 			else
 			{
 				if (pixel.dx > pixel.dy)
 					draw_line_dx(data, pixel, 0, 0x00FFFFFF);
-					//draw_line(data, pixel.x1, pixel.y1, pixel.x2, pixel.y2, 0, pixel.dx, pixel.dy, 0x00FFFFFF);
 				else
 					draw_line_dy(data, pixel, 1, 0x00FFFFFF);
-					//draw_line(data, pixel.y1, pixel.x1, pixel.y2, pixel.x2, 1, pixel.dy, pixel.dx, 0x00FFFFFF);
 			}
 		}
 	}
@@ -211,19 +74,15 @@ void	render_image(int **int_array, int height, int length)
 			{
 				if (pixel.dx > pixel.dy)
 					draw_line_dx(data, pixel, 0, 0x00FF0000);
-					//draw_line(data, pixel.x1, pixel.y1, pixel.x2, pixel.y2, 0, pixel.dx, pixel.dy, 0x00FF0000);
 				else
 					draw_line_dy(data, pixel, 1, 0x00FF0000);
-					//draw_line(data, pixel.y1, pixel.x1, pixel.y2, pixel.x2, 1, pixel.dy, pixel.dx, 0x00FF0000);
 			}
 			else
 			{
 				if (pixel.dx > pixel.dy)
 					draw_line_dx(data, pixel, 0, 0x00FFFFFF);
-					//draw_line(data, pixel.x1, pixel.y1, pixel.x2, pixel.y2, 0, pixel.dx, pixel.dy, 0x00FFFFFF);
 				else
 					draw_line_dy(data, pixel, 1, 0x00FFFFFF);
-					//draw_line(data, pixel.y1, pixel.x1, pixel.y2, pixel.x2, 1, pixel.dy, pixel.dx, 0x00FFFFFF);
 			}
 		}
 	}
