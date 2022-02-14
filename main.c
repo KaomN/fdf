@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 11:11:50 by conguyen          #+#    #+#             */
-/*   Updated: 2022/02/14 11:32:09 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/02/14 11:43:31 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,98 @@ void	draw_line(t_data data, int x1, int y1, int x2, int y2, int check, int dx, i
 	}
 }
 
+void	draw_line_dx(t_data data, t_linedata pixel, int check, int color)
+{
+	int pk;
+
+	pk = 2 * pixel.dy - pixel.dx;
+	for (int i = 0; i <= pixel.dx; i++)
+	{
+		//printf("%d,%d\n", pixel.x1, pixel.y1);
+		pixel.x1 < pixel.x2 ? pixel.x1++ : pixel.x1--;
+		if (pk < 0)
+		{
+			//decesion value will decide to plot
+			//either  x1 or y1 in x's position
+			if (check == 0)
+			{
+				// putpixel(x1, y1, RED);
+				my_mlx_pixel_put(&data, pixel.x1, pixel.y1, color);
+			//	pk = pk + 2 * dy;
+			}
+			else
+			{
+				//(y1,x1) is passed in xt
+				//putpixel(y1, x1, YELLOW);
+				my_mlx_pixel_put(&data, pixel.y1, pixel.x1, color);
+			//	pk = pk + 2 * dy;
+			}
+			pk = pk + 2 * pixel.dy;
+		}
+		else
+		{
+			pixel.y1 < pixel.y2 ? pixel.y1++ : pixel.y1--;
+			if (check == 0)
+			{
+				//putpixel(x1, y1, RED);
+				my_mlx_pixel_put(&data, pixel.x1, pixel.y1, color);
+			}
+			else
+			{
+				//putpixel(y1, x1, YELLOW);
+				my_mlx_pixel_put(&data, pixel.y1, pixel.x1, color);
+			}
+			pk = pk + 2 * pixel.dy - 2 * pixel.dx;
+		}
+	}
+}
+
+void	draw_line_dy(t_data data, t_linedata pixel, int check, int color)
+{
+	int pk;
+
+	pk = 2 * pixel.dx - pixel.dy;
+	for (int i = 0; i <= pixel.dy; i++)
+	{
+		//printf("%d,%d\n", pixel.x1, pixel.y1);
+		pixel.y1 < pixel.y2 ? pixel.y1++ : pixel.y1--;
+		if (pk < 0)
+		{
+			//decesion value will decide to plot
+			//either  x1 or y1 in x's position
+			if (check == 0)
+			{
+				// putpixel(x1, y1, RED);
+				my_mlx_pixel_put(&data, pixel.y1, pixel.x1, color);
+			//	pk = pk + 2 * dy;
+			}
+			else
+			{
+				//(y1,x1) is passed in xt
+				//putpixel(y1, x1, YELLOW);
+				my_mlx_pixel_put(&data, pixel.y1, pixel.x1, color);
+			//	pk = pk + 2 * dy;
+			}
+			pk = pk + 2 * pixel.dx;
+		}
+		else
+		{
+			pixel.x1 < pixel.x2 ? pixel.x1++ : pixel.x1--;
+			if (check == 0)
+			{
+				//putpixel(x1, y1, RED);
+				my_mlx_pixel_put(&data, pixel.y1, pixel.x1, color);
+			}
+			else
+			{
+				//putpixel(y1, x1, YELLOW);
+				my_mlx_pixel_put(&data, pixel.x1, pixel.y1, color);
+			}
+			pk = pk + 2 * pixel.dx - 2 * pixel.dy;
+		}
+	}
+}
+
 void	render_image(int **int_array, int height, int length)
 {
 	void		*mlx;
@@ -147,16 +239,20 @@ void	render_image(int **int_array, int height, int length)
 			if (int_array[x][y] == 10 && int_array[x][y + 1] == 10)
 			{
 				if (pixel.dx > pixel.dy)
-					draw_line(data, pixel.x1, pixel.y1, pixel.x2, pixel.y2, 0, pixel.dx, pixel.dy, 0x00FF0000);
+					draw_line_dx(data, pixel, 0, 0x00FF0000);
+					//draw_line(data, pixel.x1, pixel.y1, pixel.x2, pixel.y2, 0, pixel.dx, pixel.dy, 0x00FF0000);
 				else
-					draw_line(data, pixel.y1, pixel.x1, pixel.y2, pixel.x2, 1, pixel.dy, pixel.dx, 0x00FF0000);
+					draw_line_dy(data, pixel, 1, 0x00FF0000);
+					//draw_line(data, pixel.y1, pixel.x1, pixel.y2, pixel.x2, 1, pixel.dy, pixel.dx, 0x00FF0000);
 			}
 			else
 			{
 				if (pixel.dx > pixel.dy)
-					draw_line(data, pixel.x1, pixel.y1, pixel.x2, pixel.y2, 0, pixel.dx, pixel.dy, 0x00FFFFFF);
+					draw_line_dx(data, pixel, 0, 0x00FFFFFF);
+					//draw_line(data, pixel.x1, pixel.y1, pixel.x2, pixel.y2, 0, pixel.dx, pixel.dy, 0x00FFFFFF);
 				else
-					draw_line(data, pixel.y1, pixel.x1, pixel.y2, pixel.x2, 1, pixel.dy, pixel.dx, 0x00FFFFFF);
+					draw_line_dy(data, pixel, 1, 0x00FFFFFF);
+					//draw_line(data, pixel.y1, pixel.x1, pixel.y2, pixel.x2, 1, pixel.dy, pixel.dx, 0x00FFFFFF);
 			}
 		}
 	}
