@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 11:11:50 by conguyen          #+#    #+#             */
-/*   Updated: 2022/02/14 12:47:17 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/02/21 12:21:26 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
+void	plot_next_point(t_linedata *pixel)
+{
+	
+}
+
 void	render_image(int **int_array, int height, int length)
 {
 	void		*mlx;
@@ -28,7 +33,7 @@ void	render_image(int **int_array, int height, int length)
 	t_linedata	pixel;
 
 	mlx = mlx_init();
-	win = mlx_new_window(mlx, 1150, 1000, "fdf 42");
+	win = mlx_new_window(mlx, 1150, 1000, "fdf");
 	data.mlx = mlx;
 	data.win = win;
 	data.img = mlx_new_image(mlx, 1150, 1000);
@@ -36,54 +41,204 @@ void	render_image(int **int_array, int height, int length)
 			&data.line_length, &data.endian);
 	for (int x = 0; x < height; x++)
 	{
-		for (int y = 0; y < length; y++)
+		for (int y = 0; y < length - 1; y++)
 		{
-			pixel.x1 = (y * 35 + 450) - (x * 40);
-			pixel.y1 = (x * 35 + 50) + (y * 20);
-			pixel.x2 = ((y + 1) * 35 + 450) - ((x) * 40);
-			pixel.y2 = ((x) * 35 + 50) + ((y + 1) * 20);
-			pixel.dx = abs(pixel.x2 - pixel.x1);
-			pixel.dy = abs(pixel.y2 - pixel.y1);
-			if (int_array[x][y] == 10 && int_array[x][y + 1] == 10)
+			if (y == 0)
 			{
+				pixel.x1 = (y * 35 + 450) - (x * 40);
+				pixel.y1 = (x * 35 + 50) + (y * 20);
+				pixel.x2 = ((y + 1) * 35 + 450) - ((x) * 40);
+				pixel.y2 = (x * 35 + 50) + ((y + 1) * 20);
+			}
+			if (int_array[x][y] < int_array[x][y + 1])
+			{
+				pixel.x2 = ((y + 1) * 35 + 450) - (x * 40);
+				pixel.y2 = ((x * 35 + 50) + ((y + 1) * 20)) - (int_array[x][y + 1] * 4);
+				pixel.dx = abs(pixel.x2 - pixel.x1);
+				pixel.dy = abs(pixel.y2 - pixel.y1);
 				if (pixel.dx > pixel.dy)
 					draw_line_dx(data, pixel, 0, 0x00FF0000);
 				else
 					draw_line_dy(data, pixel, 1, 0x00FF0000);
+				pixel.x1 = pixel.x2;
+				pixel.y1 = pixel.y2;
+			}
+			else if (int_array[x][y] > int_array[x][y + 1])
+			{
+				pixel.x2 = ((y + 1) * 35 + 450) - (x * 40);
+				pixel.y2 = ((x * 35 + 50) + ((y + 1) * 20));
+				pixel.dx = abs(pixel.x2 - pixel.x1);
+				pixel.dy = abs(pixel.y2 - pixel.y1);
+				if (pixel.dx > pixel.dy)
+					draw_line_dx(data, pixel, 0, 0x00FF0000);
+				else
+					draw_line_dy(data, pixel, 1, 0x00FF0000);
+				pixel.x1 = pixel.x2;
+				pixel.y1 = pixel.y2;
 			}
 			else
 			{
+				pixel.x2 = ((y + 1) * 35 + 450) - (x * 40);
+				pixel.y2 = pixel.y1 + 20;
+				pixel.dx = abs(pixel.x2 - pixel.x1);
+				pixel.dy = abs(pixel.y2 - pixel.y1);
 				if (pixel.dx > pixel.dy)
 					draw_line_dx(data, pixel, 0, 0x00FFFFFF);
 				else
 					draw_line_dy(data, pixel, 1, 0x00FFFFFF);
+				pixel.x1 = pixel.x2;
+				pixel.y1 = pixel.y2;
 			}
 		}
 	}
-	for (int x = 0; x < height - 1; x++)
+	//for (int x = 0; x < height - 1; x++)
+	for (int x = 0; x < length; x++)
 	{
-		for (int y = 0; y <= length; y++)
+		for (int y = 0; y < height - 1; y++)
 		{
-			pixel.x1 = (y * 35 + 450) - (x * 40);
-			pixel.y1 = (x * 35 + 50) + (y * 20);
-			pixel.x2 = ((y) * 35 + 450) - ((x + 1) * 40);
-			pixel.y2 = ((x + 1) * 35 + 50) + ((y) * 20);
-			pixel.dx = abs(pixel.x2 - pixel.x1);
-			pixel.dy = abs(pixel.y2 - pixel.y1);
-			if (int_array[x][y] == 10 && int_array[x + 1][y] == 10)
+			if (y == 0)
 			{
-				if (pixel.dx > pixel.dy)
-					draw_line_dx(data, pixel, 0, 0x00FF0000);
-				else
-					draw_line_dy(data, pixel, 1, 0x00FF0000);
+				pixel.x1 = (x * 35 + 450) - (y * 40);
+				pixel.y1 = (y * 35 + 50) + (x * 20);
 			}
-			else
+			if (int_array[y][x] < int_array[y + 1][x])
 			{
+				printf("if\n");
+				pixel.x2 = (x * 35 + 450) - ((y + 1) * 40);
+				pixel.y2 = ((y + 1) * 35 + 50) + (x * 20) - (int_array[y + 1][x] * 4);
+				pixel.dx = abs(pixel.x2 - pixel.x1);
+				pixel.dy = abs(pixel.y2 - pixel.y1);
 				if (pixel.dx > pixel.dy)
 					draw_line_dx(data, pixel, 0, 0x00FFFFFF);
 				else
 					draw_line_dy(data, pixel, 1, 0x00FFFFFF);
+				pixel.x1 = pixel.x2;
+				pixel.y1 = pixel.y2;
 			}
+			else if (int_array[y][x] > int_array[y + 1][x])
+			{
+				printf("else if\n");
+				printf("%d|%d\n", int_array[y][x], int_array[y + 1][x]);
+				pixel.x2 = (x * 35 + 450) - ((y + 1) * 40);
+				pixel.y2 = (((y + 1) * 35 + 50) + (x * 20));
+				pixel.dx = abs(pixel.x2 - pixel.x1);
+				pixel.dy = abs(pixel.y2 - pixel.y1);
+				if (pixel.dx > pixel.dy)
+					draw_line_dx(data, pixel, 0, 0x00FF0000);
+				else
+					draw_line_dy(data, pixel, 1, 0x00FF0000);
+				pixel.x1 = pixel.x2;
+				pixel.y1 = pixel.y2;
+			}
+			else
+			{
+				printf("else\n");
+				pixel.x2 = (x * 35 + 450) - ((y + 1) * 40);
+				pixel.y2 = pixel.y1 + 35;
+				pixel.dx = abs(pixel.x2 - pixel.x1);
+				pixel.dy = abs(pixel.y2 - pixel.y1);
+				if (pixel.dx > pixel.dy)
+					draw_line_dx(data, pixel, 0, 0x00FFFFFF);
+				else
+					draw_line_dy(data, pixel, 1, 0x00FFFFFF);
+				pixel.x1 = pixel.x2;
+				pixel.y1 = pixel.y2;
+			}
+
+			
+		// for (int y = 0; y <= length; y++)
+		// {
+		// 	pixel.x1 = (y * 35 + 450) - (x * 40);
+		// 	pixel.y1 = (x * 35 + 50) + (y * 20);
+		// 	pixel.x2 = (y * 35 + 450) - ((x + 1) * 40);
+		// 	pixel.y2 = ((x + 1) * 35 + 50) + (y * 20);
+		// 	if (int_array[x][y] < int_array[x + 1][y])
+		// 	{
+		// 		pixel.x2 = (y * 35 + 450) - ((x + 1) * 40);
+		// 		pixel.y2 = ((x + 1) * 35 + 50) + (y * 20) - (int_array[x + 1][y] * 2);
+		// 		pixel.dx = abs(pixel.x2 - pixel.x1);
+		// 		pixel.dy = abs(pixel.y2 - pixel.y1);
+		// 		if (pixel.dx > pixel.dy)
+		// 			draw_line_dx(data, pixel, 0, 0x00FFFFFF);
+		// 		else
+		// 			draw_line_dy(data, pixel, 1, 0x00FFFFFF);
+		// 		pixel.x1 = pixel.x2;
+		// 		pixel.y1 = pixel.y2;
+		// 	}
+		// 	else if (int_array[x][y] > int_array[x + 1][y])
+		// 	{
+
+		// 	}
+		// 	else
+		// 	{
+		// 		pixel.x2 = (y * 35 + 450) - ((x + 1) * 40);
+		// 		pixel.y2 = ((x + 1) * 35 + 50) + (y * 20);
+		// 		pixel.dx = abs(pixel.x2 - pixel.x1);
+		// 		pixel.dy = abs(pixel.y2 - pixel.y1);
+		// 		if (pixel.dx > pixel.dy)
+		// 			draw_line_dx(data, pixel, 0, 0x00FFFFFF);
+		// 		else
+		// 			draw_line_dy(data, pixel, 1, 0x00FFFFFF);
+		// 		pixel.x1 = pixel.x2;
+		// 		pixel.y1 = pixel.y2;
+		// 	}
+
+			
+	// 		if (int_array[x][y] < int_array[x + 1][y])
+	// 		{
+	// 			pixel.x2 = (y * 35 + 450) - ((x + 1) * 40);
+	// 			pixel.y2 = (((x + 1) * 35 + 50) + (y * 20) + (10 * 2));
+	// 			pixel.dx = abs(pixel.x2 - pixel.x1);
+	// 			pixel.dy = abs(pixel.y2 - pixel.y1);
+	// 			if (pixel.dx > pixel.dy)
+	// 				draw_line_dx(data, pixel, 0, 0x00FF0000);
+	// 			else
+	// 				draw_line_dy(data, pixel, 1, 0x00FF0000);
+	// 			pixel.x1 = pixel.x2;
+	// 			pixel.y1 = pixel.y2;
+	// 		}
+	// 		else if (int_array[x][y] > int_array[x + 1][y])
+	// 		{
+	// 			pixel.x2 = (y * 35 + 450) - ((x + 1) * 40);
+	// 			pixel.y2 = (((x + 1) * 35 + 50) + (y * 20) - (10 * 2));
+	// 			pixel.dx = abs(pixel.x2 - pixel.x1);
+	// 			pixel.dy = abs(pixel.y2 - pixel.y1);
+	// 			if (pixel.dx > pixel.dy)
+	// 				draw_line_dx(data, pixel, 0, 0x00FF0000);
+	// 			else
+	// 				draw_line_dy(data, pixel, 1, 0x00FF0000);
+	// 			pixel.x1 = pixel.x2;
+	// 			pixel.y1 = pixel.y2;
+	// 		}
+	// 		else
+	// 		{
+	// 			pixel.x2 = (y * 35 + 450) - ((x + 1) * 40);
+	// 			pixel.y2 = ((x + 1) * 35 + 50) + (y * 20);
+	// 			pixel.dx = abs(pixel.x2 - pixel.x1);
+	// 			pixel.dy = abs(pixel.y2 - pixel.y1);
+	// 			if (pixel.dx > pixel.dy)
+	// 				draw_line_dx(data, pixel, 0, 0x00FFFFFF);
+	// 			else
+	// 				draw_line_dy(data, pixel, 1, 0x00FFFFFF);
+	// 			pixel.x1 = pixel.x2;
+	// 			pixel.y1 = pixel.y2;
+	// 		}
+			// if (int_array[x][y] < int_array[x][y + 1])
+			// {
+			// 	// pixel.x2 = ((y) * 35 + 450) - ((x + 1) * 40);
+			// 	// pixel.y2 = (((x + 1) * 35 + 50) + ((y) * 20) - (10 * 2));
+			// 	if (pixel.dx > pixel.dy)
+			// 		draw_line_dx(data, pixel, 0, 0x00FF0000);
+			// 	else
+			// 		draw_line_dy(data, pixel, 1, 0x00FF0000);
+			// }
+			// else
+			// {
+			// 	if (pixel.dx > pixel.dy)
+			// 		draw_line_dx(data, pixel, 0, 0x00FFFFFF);
+			// 	else
+			// 		draw_line_dy(data, pixel, 1, 0x00FFFFFF);
+			// }
 		}
 	}
 	mlx_put_image_to_window(mlx, win, data.img, 0, 0);
@@ -150,7 +305,7 @@ int	main(void)
 	int		len;
 
 	size = 100;
-	fd = open("42.fdf", O_RDONLY);
+	fd = open("lol.fdf", O_RDONLY);
 	x = 0;
 	int_arr = (int **)malloc(sizeof(int *) * size);
 	while (get_next_line(fd, &lines))
