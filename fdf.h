@@ -6,20 +6,18 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:19:43 by conguyen          #+#    #+#             */
-/*   Updated: 2022/02/14 12:44:56 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/02/22 12:53:16 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FDF_F
-# define FDF_F
+#ifndef FDF_H
+# define FDF_H
 
-#include "mlx_linux/mlx.h"
-#include <stdlib.h>
-#include "libft/libft.h"
-
-/* DELETE!*/
-#include <stdio.h>
-#include <math.h>
+# include "mlx_linux/mlx.h"
+# include <stdlib.h>
+# include "libft/libft.h"
+# include <stdio.h>
+# include <math.h>
 
 typedef struct s_data
 {
@@ -30,7 +28,18 @@ typedef struct s_data
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-}				t_data;
+}	t_data;
+
+typedef struct s_map
+{
+	int	**map;
+}	t_map;
+
+typedef struct s_winsize
+{
+	int		x;
+	int		y;
+}	t_winsize;
 
 typedef struct s_linedata
 {
@@ -40,16 +49,32 @@ typedef struct s_linedata
 	int		y2;
 	double	dx;
 	double	dy;
-}				t_linedata;
+}	t_linedata;
 
-/* events.c */
-int	esc_key(int keycode, void *param);
+typedef struct s_fdf
+{
+	t_data	mlx;
+	t_map	map;
+}	t_fdf;
 
-/* draw_line.c */
+/* 
+** events.c
+*/
+
+int		esc_key(int keycode, void *param);
+int		mouse_event(int mouse_button, int x, int y, void *param);
+
+/*
+** draw_line.c
+*/
+
 void	draw_line_dx(t_data data, t_linedata pixel, int check, int color);
 void	draw_line_dy(t_data data, t_linedata pixel, int check, int color);
 
-/* main.c */
+/*
+** main.c
+*/
+
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 
 #endif

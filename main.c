@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 11:11:50 by conguyen          #+#    #+#             */
-/*   Updated: 2022/02/21 12:52:27 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/02/22 14:11:44 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-void	render_image(int **int_array, int height, int length)
+void	render_image(int **int_array, int height, int width)
 {
 	void		*mlx;
 	void		*win;
@@ -29,24 +29,27 @@ void	render_image(int **int_array, int height, int length)
 
 	mlx = mlx_init();
 	win = mlx_new_window(mlx, 1150, 1000, "fdf");
+	ft_bzero(&data, sizeof(t_data));
+	ft_bzero(&pixel, sizeof(t_linedata));
 	data.mlx = mlx;
 	data.win = win;
 	data.img = mlx_new_image(mlx, 1150, 1000);
 	data.addr = mlx_get_data_addr(data.img, &data.bits_per_pixel,
 			&data.line_length, &data.endian);
+
 	for (int x = 0; x < height; x++)
 	{
-		for (int y = 0; y < length - 1; y++)
+		for (int y = 1; y < width; y++)
 		{
-			if (y == 0)
+			if (y == 1)
 			{
-				pixel.x1 = (y * 35 + 450) - (x * 40);
-				pixel.y1 = (x * 35 + 50) + (y * 20);
+				pixel.x1 = ((y - 1) * 35 + 450) - (x * 40);
+				pixel.y1 = (x * 35 + 50) + ((y - 1) * 20);
 			}
 			if (int_array[x][y] < int_array[x][y + 1])
 			{
-				pixel.x2 = ((y + 1) * 35 + 450) - (x * 40);
-				pixel.y2 = ((x * 35 + 50) + ((y + 1) * 20)) - (int_array[x][y + 1] * 4);
+				pixel.x2 = ((y) * 35 + 450) - (x * 40);
+				pixel.y2 = ((x * 35 + 50) + ((y) * 20)) - (int_array[x][y + 1] * 4);
 				pixel.dx = abs(pixel.x2 - pixel.x1);
 				pixel.dy = abs(pixel.y2 - pixel.y1);
 				if (pixel.dx > pixel.dy)
@@ -58,8 +61,8 @@ void	render_image(int **int_array, int height, int length)
 			}
 			else if (int_array[x][y] > int_array[x][y + 1])
 			{
-				pixel.x2 = ((y + 1) * 35 + 450) - (x * 40);
-				pixel.y2 = ((x * 35 + 50) + ((y + 1) * 20));
+				pixel.x2 = ((y) * 35 + 450) - (x * 40);
+				pixel.y2 = ((x * 35 + 50) + ((y) * 20));
 				pixel.dx = abs(pixel.x2 - pixel.x1);
 				pixel.dy = abs(pixel.y2 - pixel.y1);
 				if (pixel.dx > pixel.dy)
@@ -71,7 +74,7 @@ void	render_image(int **int_array, int height, int length)
 			}
 			else
 			{
-				pixel.x2 = ((y + 1) * 35 + 450) - (x * 40);
+				pixel.x2 = ((y) * 35 + 450) - (x * 40);
 				pixel.y2 = pixel.y1 + 20;
 				pixel.dx = abs(pixel.x2 - pixel.x1);
 				pixel.dy = abs(pixel.y2 - pixel.y1);
@@ -84,32 +87,32 @@ void	render_image(int **int_array, int height, int length)
 			}
 		}
 	}
-	for (int x = 0; x < length; x++)
+	for (int x = 1; x <= width; x++)
 	{
 		for (int y = 0; y < height - 1; y++)
 		{
 			if (y == 0)
 			{
-				pixel.x1 = (x * 35 + 450) - (y * 40);
-				pixel.y1 = (y * 35 + 50) + (x * 20);
+				pixel.x1 = ((x - 1) * 35 + 450) - (y * 40);
+				pixel.y1 = (y * 35 + 50) + ((x - 1) * 20);
 			}
 			if (int_array[y][x] < int_array[y + 1][x])
 			{
-				pixel.x2 = (x * 35 + 450) - ((y + 1) * 40);
-				pixel.y2 = ((y + 1) * 35 + 50) + (x * 20) - (int_array[y + 1][x] * 4);
+				pixel.x2 = ((x - 1) * 35 + 450) - ((y + 1) * 40);
+				pixel.y2 = ((y + 1) * 35 + 50) + ((x - 1) * 20) - (int_array[y + 1][x] * 4);
 				pixel.dx = abs(pixel.x2 - pixel.x1);
 				pixel.dy = abs(pixel.y2 - pixel.y1);
 				if (pixel.dx > pixel.dy)
-					draw_line_dx(data, pixel, 0, 0x00FFFFFF);
+					draw_line_dx(data, pixel, 0, 0x00FF0000);
 				else
-					draw_line_dy(data, pixel, 1, 0x00FFFFFF);
+					draw_line_dy(data, pixel, 1, 0x00FF0000);
 				pixel.x1 = pixel.x2;
 				pixel.y1 = pixel.y2;
 			}
 			else if (int_array[y][x] > int_array[y + 1][x])
 			{
-				pixel.x2 = (x * 35 + 450) - ((y + 1) * 40);
-				pixel.y2 = (((y + 1) * 35 + 50) + (x * 20));
+				pixel.x2 = ((x - 1) * 35 + 450) - ((y + 1) * 40);
+				pixel.y2 = (((y + 1) * 35 + 50) + ((x - 1) * 20));
 				pixel.dx = abs(pixel.x2 - pixel.x1);
 				pixel.dy = abs(pixel.y2 - pixel.y1);
 				if (pixel.dx > pixel.dy)
@@ -121,7 +124,7 @@ void	render_image(int **int_array, int height, int length)
 			}
 			else
 			{
-				pixel.x2 = (x * 35 + 450) - ((y + 1) * 40);
+				pixel.x2 = ((x - 1) * 35 + 450) - ((y + 1) * 40);
 				pixel.y2 = pixel.y1 + 35;
 				pixel.dx = abs(pixel.x2 - pixel.x1);
 				pixel.dy = abs(pixel.y2 - pixel.y1);
@@ -134,8 +137,9 @@ void	render_image(int **int_array, int height, int length)
 			}
 		}
 	}
-	mlx_put_image_to_window(mlx, win, data.img, 0, 0);
-	mlx_key_hook(win, &esc_key, 0);
+	mlx_put_image_to_window(data.mlx , data.win, data.img, 0, 0);
+	mlx_key_hook(win, &esc_key, &data);
+	mlx_mouse_hook(win, &mouse_event, 0);
 	mlx_loop(mlx);
 }
 
@@ -178,12 +182,14 @@ int	*transform_array(char *lines)
 	size = 100;
 	lines_arr = ft_strsplit(lines, ' ');
 	int_arr = (int *)malloc(sizeof(int) * size);
-	x = 0;
-	while (lines_arr[x] != NULL)
+	x = 1;
+	while (lines_arr[x - 1] != NULL)
 	{
-		int_arr[x] = ft_atoi(lines_arr[x]);
+		int_arr[x] = ft_atoi(lines_arr[x - 1]);
 		x++;
 	}
+	int_arr[0] = x - 1;
+	//printf("%d | [%d][%d][%d][%d][%d][%d][%d][%d][%d][%d][%d][%d][%d][%d][%d][%d][%d][%d][%d]\n", int_arr[0], int_arr[1], int_arr[2], int_arr[3], int_arr[4], int_arr[5], int_arr[6], int_arr[7], int_arr[8], int_arr[9], int_arr[10], int_arr[11], int_arr[12], int_arr[13], int_arr[14], int_arr[15], int_arr[16], int_arr[17], int_arr[18], int_arr[19]);
 	free_str_arr(lines_arr);
 	return (int_arr);
 }
@@ -192,7 +198,7 @@ int	main(void)
 {
 	int		fd;
 	char	*lines;
-	int		**int_arr;
+	t_map	map;
 	int		x;
 	size_t	size;
 	int		len;
@@ -200,24 +206,15 @@ int	main(void)
 	size = 100;
 	fd = open("42.fdf", O_RDONLY);
 	x = 0;
-	int_arr = (int **)malloc(sizeof(int *) * size);
+	map.map = (int **)malloc(sizeof(int *) * size);
 	while (get_next_line(fd, &lines))
 	{
 		if (x == 0)
 			len = get_length(lines);
-		int_arr[x] = transform_array(lines);
+		map.map[x] = transform_array(lines);
 		free(lines);
 		x++;
 	}
-	// for (int y = 0; y < x; y++)
-	// {
-	// 	for (int z = 0; z <= len; z++)
-	// 	{
-	// 		printf("%d", int_arr[y][z]);
-	// 	}
-	// 	printf("\n");
-	// }
-	// printf("%d\n", len);
-	render_image(int_arr, x, len);
+	render_image(map.map, x, len);
 	return (0);
 }
