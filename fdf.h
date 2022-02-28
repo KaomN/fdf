@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:19:43 by conguyen          #+#    #+#             */
-/*   Updated: 2022/02/22 12:53:16 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/02/28 09:13:06 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct s_fdf
 
 int		esc_key(int keycode, void *param);
 int		mouse_event(int mouse_button, int x, int y, void *param);
+int		exit_fdf();
 
 /*
 ** draw_line.c

@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 11:11:50 by conguyen          #+#    #+#             */
-/*   Updated: 2022/02/22 14:11:44 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/02/28 09:15:56 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	render_image(int **int_array, int height, int width)
 	data.img = mlx_new_image(mlx, 1150, 1000);
 	data.addr = mlx_get_data_addr(data.img, &data.bits_per_pixel,
 			&data.line_length, &data.endian);
-
 	for (int x = 0; x < height; x++)
 	{
 		for (int y = 1; y < width; y++)
@@ -48,8 +47,8 @@ void	render_image(int **int_array, int height, int width)
 			}
 			if (int_array[x][y] < int_array[x][y + 1])
 			{
-				pixel.x2 = ((y) * 35 + 450) - (x * 40);
-				pixel.y2 = ((x * 35 + 50) + ((y) * 20)) - (int_array[x][y + 1] * 4);
+				pixel.x2 = (y * 35 + 450) - (x * 40);
+				pixel.y2 = ((x * 35 + 50) + (y * 20)) - (int_array[x][y + 1] * 4);
 				pixel.dx = abs(pixel.x2 - pixel.x1);
 				pixel.dy = abs(pixel.y2 - pixel.y1);
 				if (pixel.dx > pixel.dy)
@@ -140,6 +139,7 @@ void	render_image(int **int_array, int height, int width)
 	mlx_put_image_to_window(data.mlx , data.win, data.img, 0, 0);
 	mlx_key_hook(win, &esc_key, &data);
 	mlx_mouse_hook(win, &mouse_event, 0);
+	mlx_hook(win, 17, 0, exit_fdf, 0); // exit 'x' button on top right
 	mlx_loop(mlx);
 }
 

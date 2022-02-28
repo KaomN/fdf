@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:21:38 by conguyen          #+#    #+#             */
-/*   Updated: 2022/02/22 12:09:02 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/02/28 09:14:54 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ int	esc_key(int keycode, void *param)
 		printf("Zoom in\n");
 	if (keycode == 45)
 		printf("Zoom out\n");
-	if (keycode == 119)
+	if (keycode == 119 || keycode == 119)
 		printf("Up\n");
-	if (keycode == 97)
+	if (keycode == 97 || keycode == 97)
 		printf("Left\n");
-	if (keycode == 115)
+	if (keycode == 115 || keycode == 115)
 		printf("Down\n");
-	if (keycode == 100)
+	if (keycode == 100 || keycode == 100)
 		printf("Right\n");
 }
 
@@ -36,4 +36,9 @@ int	mouse_event(int mouse_button, int x, int y, void *param)
 		printf("Zoom in\n");
 	if (mouse_button == 5)
 		printf("Zoom out\n");
+}
+
+int	exit_fdf()
+{
+	exit (1);
 }
