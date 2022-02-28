@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:19:43 by conguyen          #+#    #+#             */
-/*   Updated: 2022/02/28 09:13:06 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/02/28 11:14:28 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,14 @@ typedef struct s_data
 typedef struct s_map
 {
 	int	**map;
+	int	width;
+	int	height;
 }	t_map;
 
 typedef struct s_winsize
 {
-	int		x;
-	int		y;
+	int		width;
+	int		height;
 }	t_winsize;
 
 typedef struct s_linedata
@@ -53,8 +55,9 @@ typedef struct s_linedata
 
 typedef struct s_fdf
 {
-	t_data	mlx;
-	t_map	map;
+	t_data		mlx;
+	t_map		map;
+	t_winsize	win_size;
 }	t_fdf;
 
 /* 

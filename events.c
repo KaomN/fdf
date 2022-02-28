@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:21:38 by conguyen          #+#    #+#             */
-/*   Updated: 2022/02/28 09:14:54 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/02/28 09:59:23 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,5 @@ int	mouse_event(int mouse_button, int x, int y, void *param)
 
 int	exit_fdf()
 {
-	exit (1);
+	exit (0);
 }
