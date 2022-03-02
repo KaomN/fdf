@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:21:38 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/02 09:14:14 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/02 12:04:00 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ int	esc_key(int keycode, t_fdf *fdf)
 		if (fdf->flags.zoom_flag > 0.2)
 			fdf->flags.zoom_flag -= 0.1;
 	if (keycode == 119 || keycode == 119)
-		printf("Up\n");
+		fdf->flags.vert -= 20;
 	if (keycode == 97 || keycode == 97)
-		printf("Left\n");
+		fdf->flags.hori -= 20;
 	if (keycode == 115 || keycode == 115)
-		printf("Down\n");
+		fdf->flags.vert += 20;
 	if (keycode == 100 || keycode == 100)
-		printf("Right\n");
+		fdf->flags.hori += 20;
 	render_image(fdf);
 }
 

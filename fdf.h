@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:19:43 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/02 09:30:43 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/02 11:47:05 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ typedef struct s_flags
 {
 	int		height_flag;
 	double	zoom_flag;
+	int		vert;
+	int		hori;
 }	t_flags;
 
 typedef struct s_fdf
