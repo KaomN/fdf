@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:19:43 by conguyen          #+#    #+#             */
-/*   Updated: 2022/02/28 11:14:28 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/02 09:30:43 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,12 @@ typedef struct s_map
 	int	height;
 }	t_map;
 
+typedef struct s_pos
+{
+	double	x;
+	double	y;
+}	t_pos;
+
 typedef struct s_winsize
 {
 	int		width;
@@ -45,27 +51,37 @@ typedef struct s_winsize
 
 typedef struct s_linedata
 {
-	int		x1;
-	int		y1;
-	int		x2;
-	int		y2;
+	double	x1;
+	double	y1;
+	double	x2;
+	double	y2;
 	double	dx;
 	double	dy;
 }	t_linedata;
+
+typedef struct s_flags
+{
+	int		height_flag;
+	double	zoom_flag;
+}	t_flags;
 
 typedef struct s_fdf
 {
 	t_data		mlx;
 	t_map		map;
 	t_winsize	win_size;
+	t_flags		flags;
+	t_linedata	pixel;
 }	t_fdf;
+
+
 
 /* 
 ** events.c
 */
 
-int		esc_key(int keycode, void *param);
-int		mouse_event(int mouse_button, int x, int y, void *param);
+int		esc_key(int keycode, t_fdf *fdf);
+int		mouse_event(int mouse_button, t_fdf *fdf);
 int		exit_fdf();
 
 /*
@@ -79,6 +95,7 @@ void	draw_line_dy(t_data data, t_linedata pixel, int check, int color);
 ** main.c
 */
 
+void	render_image(t_fdf *fdf);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 
 #endif
