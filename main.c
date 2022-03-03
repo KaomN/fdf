@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 11:11:50 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/03 10:26:38 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/03 12:14:45 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,28 +44,15 @@ void	draw_image(t_fdf *fdf)
 	int	y = 0;
 	for (int x = 0; x < fdf->map.height; x++)
 	{
-		for (y = 0; y < fdf->map.width -1; y++)
+		for (y = 0; y < fdf->map.width - 1; y++)
 		{
 			if (y == 0)
 			{
-				fdf->pixel.x1 = (450 - (x * 40)) * fdf->flags.zoom_flag;
-				fdf->pixel.y1 = ((x * 35 + 50)) * fdf->flags.zoom_flag;
+				fdf->pixel.x1 = (fdf->flags.hori + (450 - (x * 40))) * fdf->flags.zoom_flag;
+				fdf->pixel.y1 = (fdf->flags.vert + ((x * 35 + 50))) * fdf->flags.zoom_flag;
 			}
-			if (fdf->map.map[x][y] < fdf->map.map[x][y + 1])
-			{
-				fdf->pixel.x2 = (((y + 1) * 35 + 450) - (x * 40)) * fdf->flags.zoom_flag;
-				fdf->pixel.y2 = (((x * 35 + 50) + ((y + 1) * 20)) - (fdf->map.map[x][y + 1] * 4)) * fdf->flags.zoom_flag;
-			}
-			else if (fdf->map.map[x][y] > fdf->map.map[x][y + 1])
-			{
-				fdf->pixel.x2 = (((y + 1) * 35 + 450) - (x * 40)) * fdf->flags.zoom_flag;
-				fdf->pixel.y2 = ((x * 35 + 50) + ((y + 1) * 20) - (fdf->map.map[x][y + 1] * 4)) * fdf->flags.zoom_flag;
-			}
-			else
-			{
-				fdf->pixel.x2 = (((y + 1) * 35 + 450) - (x * 40)) * fdf->flags.zoom_flag;
-				fdf->pixel.y2 = fdf->pixel.y1 + ((20) * fdf->flags.zoom_flag);
-			}
+			fdf->pixel.x2 = (fdf->flags.hori + ((y + 1) * 35 + 450) - (x * 40)) * fdf->flags.zoom_flag;
+			fdf->pixel.y2 = (fdf->flags.vert + (x * 35 + 50) + ((y + 1) * 20) - (fdf->map.map[x][y + 1] * 4)) * fdf->flags.zoom_flag;
 			fdf->pixel.dx = abs(fdf->pixel.x2 - fdf->pixel.x1);
 			fdf->pixel.dy = abs(fdf->pixel.y2 - fdf->pixel.y1);
 			if (fdf->pixel.dx > fdf->pixel.dy)
@@ -77,40 +64,40 @@ void	draw_image(t_fdf *fdf)
 		}
 	}
 	y = 0;
-	for (int x = 0; x < fdf->map.width; x++)
-	{
-		for (y = 0; y < fdf->map.height - 1; y++)
-		{
-			if (y == 0)
-			{
-				fdf->pixel.x1 = ((x * 35 + 450) - (y * 40)) * fdf->flags.zoom_flag;
-				fdf->pixel.y1 = ((y * 35 + 50) + (x * 20)) * fdf->flags.zoom_flag;
-			}
-			if (fdf->map.map[y][x] < fdf->map.map[y + 1][x])
-			{
-				fdf->pixel.x2 = ((x * 35 + 450) - ((y + 1) * 40)) * fdf->flags.zoom_flag;
-				fdf->pixel.y2 = (((y + 1) * 35 + 50) + (x * 20) - (fdf->map.map[y + 1][x] * 4)) * fdf->flags.zoom_flag;
-			}
-			else if (fdf->map.map[y][x] > fdf->map.map[y + 1][x])
-			{
-				fdf->pixel.x2 = ((x * 35 + 450) - ((y + 1) * 40)) * fdf->flags.zoom_flag;
-				fdf->pixel.y2 = (((y + 1) * 35 + 50) + (x * 20) - (fdf->map.map[y + 1][x] * 4)) * fdf->flags.zoom_flag;
-			}
-			else
-			{
-				fdf->pixel.x2 = ((x * 35 + 450) - ((y + 1) * 40)) * fdf->flags.zoom_flag;
-				fdf->pixel.y2 = fdf->pixel.y1 + (35 * fdf->flags.zoom_flag);
-			}
-			fdf->pixel.dx = abs(fdf->pixel.x2 - fdf->pixel.x1);
-			fdf->pixel.dy = abs(fdf->pixel.y2 - fdf->pixel.y1);
-			if (fdf->pixel.dx > fdf->pixel.dy)
-				draw_line_dx(fdf->mlx, fdf->pixel, 0, get_color(fdf, y, x, 1));
-			else
-				draw_line_dy(fdf->mlx, fdf->pixel, 1, get_color(fdf, y, x, 1));
-			fdf->pixel.x1 = fdf->pixel.x2;
-			fdf->pixel.y1 = fdf->pixel.y2;
-		}
-	}
+	// for (int x = 0; x < fdf->map.width; x++)
+	// {
+	// 	for (y = 0; y < fdf->map.height - 1; y++)
+	// 	{
+	// 		if (y == 0)
+	// 		{
+	// 			fdf->pixel.x1 = ((x * 35 + 450) - (y * 40)) * fdf->flags.zoom_flag;
+	// 			fdf->pixel.y1 = ((y * 35 + 50) + (x * 20)) * fdf->flags.zoom_flag;
+	// 		}
+	// 		if (fdf->map.map[y][x] < fdf->map.map[y + 1][x])
+	// 		{
+	// 			fdf->pixel.x2 = ((x * 35 + 450) - ((y + 1) * 40)) * fdf->flags.zoom_flag;
+	// 			fdf->pixel.y2 = (((y + 1) * 35 + 50) + (x * 20) - (fdf->map.map[y + 1][x] * 4)) * fdf->flags.zoom_flag;
+	// 		}
+	// 		else if (fdf->map.map[y][x] > fdf->map.map[y + 1][x])
+	// 		{
+	// 			fdf->pixel.x2 = ((x * 35 + 450) - ((y + 1) * 40)) * fdf->flags.zoom_flag;
+	// 			fdf->pixel.y2 = (((y + 1) * 35 + 50) + (x * 20) - (fdf->map.map[y + 1][x] * 4)) * fdf->flags.zoom_flag;
+	// 		}
+	// 		else
+	// 		{
+	// 			fdf->pixel.x2 = ((x * 35 + 450) - ((y + 1) * 40)) * fdf->flags.zoom_flag;
+	// 			fdf->pixel.y2 = fdf->pixel.y1 + (35 * fdf->flags.zoom_flag);
+	// 		}
+	// 		fdf->pixel.dx = abs(fdf->pixel.x2 - fdf->pixel.x1);
+	// 		fdf->pixel.dy = abs(fdf->pixel.y2 - fdf->pixel.y1);
+	// 		if (fdf->pixel.dx > fdf->pixel.dy)
+	// 			draw_line_dx(fdf->mlx, fdf->pixel, 0, get_color(fdf, y, x, 1));
+	// 		else
+	// 			draw_line_dy(fdf->mlx, fdf->pixel, 1, get_color(fdf, y, x, 1));
+	// 		fdf->pixel.x1 = fdf->pixel.x2;
+	// 		fdf->pixel.y1 = fdf->pixel.y2;
+	// 	}
+	// }
 }
 
 void	clear_image(t_fdf *fdf)
@@ -136,7 +123,7 @@ void	render_image(t_fdf *fdf)
 	mlx_clear_window(fdf->mlx.mlx, fdf->mlx.win);
 	clear_image(fdf);
 	draw_image(fdf);
-	mlx_put_image_to_window(fdf->mlx.mlx , fdf->mlx.win, fdf->mlx.img, fdf->flags.hori, fdf->flags.vert);
+	mlx_put_image_to_window(fdf->mlx.mlx , fdf->mlx.win, fdf->mlx.img, 0, 0);
 }
 
 void	initialize_mlx(t_fdf *fdf, int height, int width)
