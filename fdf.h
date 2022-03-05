@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:19:43 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/02 11:47:05 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/05 13:32:48 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_linedata
 	double	y2;
 	double	dx;
 	double	dy;
+	double	padding;
 }	t_linedata;
 
 typedef struct s_flags
@@ -82,7 +83,7 @@ typedef struct s_fdf
 ** events.c
 */
 
-int		esc_key(int keycode, t_fdf *fdf);
+int		keyb_event(int keycode, t_fdf *fdf);
 int		mouse_event(int mouse_button, t_fdf *fdf);
 int		exit_fdf();
 
@@ -98,6 +99,8 @@ void	draw_line_dy(t_data data, t_linedata pixel, int check, int color);
 */
 
 void	render_image(t_fdf *fdf);
+void	zoom_image(t_fdf *fdf);
+void	move_image(t_fdf *fdf);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 
 #endif
