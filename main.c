@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 11:11:50 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/05 13:50:21 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/07 09:32:22 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,7 +242,6 @@ int	main(void)
 	size = 300;
 	fd = open("100-6.fdf", O_RDONLY);
 	x = 0;
-	//ft_bzero(&fdf, sizeof(t_fdf));
 	fdf.map.map = (int **)malloc(sizeof(int *) * size);
 	while (get_next_line(fd, &lines))
 	{
@@ -252,6 +251,7 @@ int	main(void)
 		free(lines);
 		x++;
 	}
+	printf("%d", fdf.map.map[0][18]);
 	// for (int c = 0; c < x; c++)
 	// {
 	// 	for (int y = 0; y < fdf.map.width; y++)
