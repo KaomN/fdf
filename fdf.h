@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:19:43 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/08 15:37:11 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/08 16:43:04 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,11 @@ typedef struct s_fdf
 }	t_fdf;
 
 
+/* 
+** pixel_put.c
+*/
+
+void	my_mlx_pixel_put(t_fdf *fdf, int x, int y, int color);
 
 /* 
 ** events.c
@@ -89,6 +94,20 @@ int		keyboard_event(int keycode, t_fdf *fdf);
 int		zoom_event(int keycode, t_fdf *fdf);
 int		exit_event(int keycode, t_fdf *fdf);
 int		exit_fdf(t_fdf *fdf);
+
+/*
+** draw_line.c
+*/
+
+void	draw_image(t_fdf *fdf);
+
+/*
+** draw_line.c
+*/
+
+void	free_str_arr(char **arr);
+int		get_length(char *line);
+int	*transform_array(char *lines);
 
 /*
 ** draw_line.c

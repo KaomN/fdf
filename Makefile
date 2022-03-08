@@ -6,7 +6,7 @@
 #    By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/07 11:30:11 by conguyen          #+#    #+#              #
-#    Updated: 2022/03/05 15:12:16 by conguyen         ###   ########.fr        #
+#    Updated: 2022/03/08 16:43:37 by conguyen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,9 @@ LEAK = -fsanitize=leak
 CFILES += main.c
 CFILES += events.c
 CFILES += draw_line.c
+CFILES += draw_image.c
+CFILES += pixel_put.c
+CFILES += parser.c
 
 OBJ = $(CFILES:.c=.o)
 
