@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 11:11:50 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/08 16:47:13 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/08 16:47:45 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	render_image(t_fdf *fdf)
 	mlx_clear_window(fdf->mlx.mlx, fdf->mlx.win);
 	clear_image(fdf);
 	draw_image(fdf);
-	mlx_put_image_to_window(fdf->mlx.mlx , fdf->mlx.win, fdf->mlx.img, 0, 0);
+	mlx_put_image_to_window(fdf->mlx.mlx, fdf->mlx.win, fdf->mlx.img, 0, 0);
 }
 
 void	initialize_mlx(t_fdf *fdf)
