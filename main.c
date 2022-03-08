@@ -6,18 +6,18 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 11:11:50 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/07 09:35:30 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/08 15:38:39 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+void	my_mlx_pixel_put(t_fdf *fdf, int x, int y, int color)
 {
-	char	*dst;
+	int	*dst;
 
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int *)dst = color;
+	dst = (int *)fdf->mlx.addr;
+	dst[y * fdf->winsize.w + x] = color;
 }
 
 int	get_color(t_fdf *fdf, int x, int y, int check)
@@ -39,75 +39,101 @@ int	get_color(t_fdf *fdf, int x, int y, int check)
 	return (0x00FFFFFF);
 }
 
-double	double_abs(double num1, double num2)
+int	double_abs(int num1, int num2)
 {
 	if (num1 > num2)
 		return (num1 - num2);
 	return (num2 - num1);
 }
 
+void	calc_z(t_fdf *fdf, int y, int x)
+{
+	fdf->px.z = fdf->map.map[y][x] - fdf->map.map[y][x + 1];
+	printf("%d\n", fdf->px.z);
+}
+
+void	calc_line_vertical(t_fdf *fdf, int y, int x)
+{
+	if (x == 0)
+	{
+		fdf->px.x1 = (fdf->winsize.w * 0.37) - 40 * y;
+		fdf->px.y1 = (20 * y + fdf->px.pad) - fdf->map.map[y][x] * fdf->flag.h;
+	}
+	fdf->px.z = (fdf->map.map[y][x] - fdf->map.map[y][x + 1]) * fdf->flag.h;
+	fdf->px.x2 = fdf->px.x1 + 40;
+	fdf->px.y2 = fdf->px.z + (fdf->px.y1 + 20);
+	fdf->px.dx = double_abs(fdf->px.x2, fdf->px.x1);
+	fdf->px.dy = double_abs(fdf->px.y2, fdf->px.y1);
+	if (fdf->px.dx > fdf->px.dy)
+		draw_line_dx(fdf, 0, get_color(fdf, y, x, 0));
+	else
+		draw_line_dy(fdf, 1, get_color(fdf, y, x, 0));
+	fdf->px.y1 = fdf->px.y2;
+	fdf->px.x1 = fdf->px.x2;
+}
+
+void calc_line_horizontal(t_fdf *fdf, int y, int x)
+{
+	if (x == 0)
+	{
+		fdf->px.x1 = (fdf->winsize.w * 0.37) + 40 * y;
+		fdf->px.y1 = (20 * y + fdf->px.pad) - fdf->map.map[x][y] * fdf->flag.h;
+	}
+	fdf->px.z = (fdf->map.map[x][y] - fdf->map.map[x + 1][y]) * fdf->flag.h;
+	fdf->px.x2 = fdf->px.x1 - 40;
+	fdf->px.y2 = fdf->px.z + (fdf->px.y1 + 20);
+	fdf->px.dx = double_abs(fdf->px.x2, fdf->px.x1);
+	fdf->px.dy = double_abs(fdf->px.y2, fdf->px.y1);
+	if (fdf->px.dx > fdf->px.dy)
+		draw_line_dx(fdf, 0, get_color(fdf, x, y, 1));
+	else
+		draw_line_dy(fdf, 1, get_color(fdf, x, y, 1));
+	fdf->px.y1 = fdf->px.y2;
+	fdf->px.x1 = fdf->px.x2;
+}
+
 void	draw_image(t_fdf *fdf)
 {
-	int	y = 0;
-	double	pair1 = 0.3;
-	for (int x = 0; x < fdf->map.height; x++)
+	int	x;
+	int	y;
+	
+	y = 0;
+	while (y < fdf->map.height)
 	{
-		for (y = 0; y < fdf->map.width - 1; y++)
+		x = 0;
+		while (x < fdf->map.width - 1)
 		{
-			if (y == 0)
-			{
-				fdf->pixel.x1 = (((fdf->win_size.width * 0.45) - (x * (fdf->win_size.width * 0.4 / fdf->map.height))));
-				fdf->pixel.y1 = (((x * (fdf->win_size.height * pair1) / fdf->map.height)) + fdf->pixel.padding  - (fdf->map.map[x][y] * fdf->flags.height_flag));
-			}
-			fdf->pixel.x2 = fdf->pixel.x1 + ((fdf->win_size.width * 0.5 / fdf->map.width));
-			fdf->pixel.y2 = ((x * (fdf->win_size.height * pair1) / fdf->map.height) + fdf->pixel.padding) + ((y + 1) * fdf->win_size.height * 0.3 / fdf->map.width) - (fdf->map.map[x][y + 1] * fdf->flags.height_flag);
-			fdf->pixel.dx = double_abs(fdf->pixel.x2, fdf->pixel.x1);
-			fdf->pixel.dy = double_abs(fdf->pixel.y2, fdf->pixel.y1);
-			if (fdf->pixel.dx > fdf->pixel.dy)
-				draw_line_dx(fdf->mlx, fdf->pixel, 0, get_color(fdf, x, y, 0));
-			else
-				draw_line_dy(fdf->mlx, fdf->pixel, 1, get_color(fdf, x, y, 0));
-			fdf->pixel.x1 = fdf->pixel.x2;
-			fdf->pixel.y1 = fdf->pixel.y2;
+			calc_line_vertical(fdf, y, x);
+			x++;
 		}
+		y++;
 	}
 	y = 0;
-	for (int x = 0; x < fdf->map.width; x++)
+	while (y < fdf->map.width)
 	{
-		for (y = 0; y < fdf->map.height - 1; y++)
+		x = 0;
+		while (x < fdf->map.height - 1)
 		{
-			if (y == 0)
-			{
-				fdf->pixel.x1 = ((x * ((fdf->win_size.height * 0.6) / fdf->map.width)) + (fdf->win_size.width * 0.45));
-				fdf->pixel.y1 = (x * ((fdf->win_size.height * 0.3) / fdf->map.width) + fdf->pixel.padding - (fdf->map.map[y][x] * fdf->flags.height_flag));
-			}
-			fdf->pixel.x2 = ((fdf->win_size.width * 0.45) + (x * (fdf->win_size.width * 0.5 / fdf->map.width))) - ((y + 1) * (fdf->win_size.width * 0.4 / fdf->map.height));
-			fdf->pixel.y2 = (((y + 1) * (fdf->win_size.height * 0.3) / fdf->map.height) + fdf->pixel.padding) + (x * fdf->win_size.height * 0.3 / fdf->map.width) - (fdf->map.map[y + 1][x] * fdf->flags.height_flag);
-			fdf->pixel.dx = double_abs(fdf->pixel.x2, fdf->pixel.x1);
-			fdf->pixel.dy = double_abs(fdf->pixel.y2, fdf->pixel.y1);
-			if (fdf->pixel.dx > fdf->pixel.dy)
-				draw_line_dx(fdf->mlx, fdf->pixel, 0, get_color(fdf, y, x, 1));
-			else
-				draw_line_dy(fdf->mlx, fdf->pixel, 1, get_color(fdf, y, x, 1));
-			fdf->pixel.x1 = fdf->pixel.x2;
-			fdf->pixel.y1 = fdf->pixel.y2;
+			calc_line_horizontal(fdf, y, x);
+			x++;
 		}
+		y++;
 	}
 }
 
 void	image_border(t_data data, t_fdf *fdf)
 {
-	for (int y = 0; y < fdf->win_size.height; y++)
-		my_mlx_pixel_put(&data, 0, y, 0x00FFFFFF);
+	for (int y = 0; y < fdf->winsize.h; y++)
+		my_mlx_pixel_put(fdf, 0, y, 0x00FFFFFF);
 		
-	for (int y = 0; y < fdf->win_size.width; y++)
-		my_mlx_pixel_put(&data, y, 0, 0x00FFFFFF);
+	for (int y = 0; y < fdf->winsize.w; y++)
+		my_mlx_pixel_put(fdf, y, 0, 0x00FFFFFF);
 
-	for (int y = 0; y < fdf->win_size.height; y++)
-		my_mlx_pixel_put(&data, fdf->win_size.width - 1, y, 0x00FFFFFF);
+	for (int y = 0; y < fdf->winsize.h; y++)
+		my_mlx_pixel_put(fdf, fdf->winsize.w - 1, y, 0x00FFFFFF);
 		
-	for (int y = 0; y < fdf->win_size.width; y++)
-		my_mlx_pixel_put(&data, y, fdf->win_size.height - 1, 0x00FFFFFF);
+	for (int y = 0; y < fdf->winsize.w; y++)
+		my_mlx_pixel_put(fdf, y, fdf->winsize.h - 1, 0x00FFFFFF);
 }
 
 void	clear_image(t_fdf *fdf)
@@ -116,12 +142,12 @@ void	clear_image(t_fdf *fdf)
 	int y;
 
 	x = 0;
-	while (x < fdf->win_size.width)
+	while (x < fdf->winsize.w)
 	{
 		y = 0;
-		while (y < fdf->win_size.height)
+		while (y < fdf->winsize.h)
 		{
-			my_mlx_pixel_put(&fdf->mlx, x, y, 0x00000000);
+			my_mlx_pixel_put(fdf, x, y, 0x00000000);
 			++y;
 		}
 		++x;
@@ -131,20 +157,13 @@ void	clear_image(t_fdf *fdf)
 void	zoom_image(t_fdf *fdf)
 {
 	mlx_clear_window(fdf->mlx.mlx, fdf->mlx.win);
-	//free(fdf->mlx.addr);
 	mlx_destroy_image(fdf->mlx.mlx, fdf->mlx.img);
-	fdf->mlx.img = mlx_new_image(fdf->mlx.mlx, fdf->win_size.width, fdf->win_size.height);
+	fdf->mlx.img = mlx_new_image(fdf->mlx.mlx, fdf->winsize.w, fdf->winsize.h);
 	fdf->mlx.addr = mlx_get_data_addr(fdf->mlx.img, &fdf->mlx.bits_per_pixel,
 			&fdf->mlx.line_length, &fdf->mlx.endian);
 	draw_image(fdf);
 	image_border(fdf->mlx, fdf);
-	mlx_put_image_to_window(fdf->mlx.mlx , fdf->mlx.win, fdf->mlx.img, fdf->flags.hori, fdf->flags.vert);
-}
-
-void	move_image(t_fdf *fdf)
-{
-	mlx_clear_window(fdf->mlx.mlx, fdf->mlx.win);
-	mlx_put_image_to_window(fdf->mlx.mlx , fdf->mlx.win, fdf->mlx.img, fdf->flags.hori, fdf->flags.vert);
+	mlx_put_image_to_window(fdf->mlx.mlx , fdf->mlx.win, fdf->mlx.img, 0, 0);
 }
 
 void	render_image(t_fdf *fdf)
@@ -153,7 +172,7 @@ void	render_image(t_fdf *fdf)
 	clear_image(fdf);
 	draw_image(fdf);
 	image_border(fdf->mlx, fdf);
-	mlx_put_image_to_window(fdf->mlx.mlx , fdf->mlx.win, fdf->mlx.img, fdf->flags.hori, fdf->flags.vert);
+	mlx_put_image_to_window(fdf->mlx.mlx , fdf->mlx.win, fdf->mlx.img, 0, 0);
 }
 
 void	initialize_mlx(t_fdf *fdf)
@@ -162,13 +181,13 @@ void	initialize_mlx(t_fdf *fdf)
 	void		*win;
 
 	mlx = mlx_init();
-	win = mlx_new_window(mlx, fdf->win_size.width, fdf->win_size.height, "fdf");
+	win = mlx_new_window(mlx, fdf->winsize.w, fdf->winsize.h, "fdf");
 	fdf->mlx.mlx = mlx;
 	fdf->mlx.win = win;
-	fdf->mlx.img = mlx_new_image(mlx, fdf->win_size.width, fdf->win_size.height);
+	fdf->mlx.img = mlx_new_image(mlx, fdf->winsize.w, fdf->winsize.h);
 	fdf->mlx.addr = mlx_get_data_addr(fdf->mlx.img, &fdf->mlx.bits_per_pixel,
 			&fdf->mlx.line_length, &fdf->mlx.endian);
-	mlx_key_hook(fdf->mlx.win, &keyb_event, fdf);
+	mlx_key_hook(fdf->mlx.win, &events, fdf);
 	mlx_hook(fdf->mlx.win, 17, 0, &exit_fdf, fdf); // exit 'x' button on top right
 	render_image(fdf);
 	mlx_loop(fdf->mlx.mlx = mlx);
@@ -222,13 +241,13 @@ int	*transform_array(char *lines)
 
 void	initialize_fdf(t_fdf *fdf)
 {
-	fdf->win_size.width = 1200;
-	fdf->win_size.height = 1000;
-	fdf->pixel.padding = 150;
-	fdf->flags.zoom_flag = 1.0;
-	fdf->flags.height_flag = 4;
-	fdf->flags.hori = 0;
-	fdf->flags.vert = 0;
+	fdf->flag.zoom = 1;
+	fdf->winsize.w = 1200;
+	fdf->winsize.h = 1000;
+	fdf->px.pad = 150;
+	fdf->flag.h = 0.5;
+	fdf->flag.hori = 0;
+	fdf->flag.vert = 0;
 }
 
 int	main(void)
@@ -240,7 +259,7 @@ int	main(void)
 	size_t	size;
 
 	size = 300;
-	fd = open("100-6.fdf", O_RDONLY);
+	fd = open("42.fdf", O_RDONLY);
 	if (fd < 0)
 	{
 		printf("Error\n");
@@ -256,7 +275,6 @@ int	main(void)
 		free(lines);
 		x++;
 	}
-	printf("%d", fdf.map.map[0][18]);
 	// for (int c = 0; c < x; c++)
 	// {
 	// 	for (int y = 0; y < fdf.map.width; y++)

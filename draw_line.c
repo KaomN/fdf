@@ -6,93 +6,117 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:42:04 by conguyen          #+#    #+#             */
-/*   Updated: 2022/02/14 12:45:09 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/08 15:35:23 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static int	increment_decrement(t_linedata pixel, char ch)
+static int	increment_decrement(t_linedata px, char ch)
 {
 	if (ch == 'x')
 	{
-		if (pixel.x1 < pixel.x2)
-			pixel.x1++;
+		if (px.x1 < px.x2)
+			px.x1++;
 		else
-			pixel.x1--;
-		return (pixel.x1);
+			px.x1--;
+		return (px.x1);
 	}
 	if (ch == 'y')
 	{
-		if (pixel.y1 < pixel.y2)
-			pixel.y1++;
+		if (px.y1 < px.y2)
+			px.y1++;
 		else
-			pixel.y1--;
-		return (pixel.y1);
+			px.y1--;
+		return (px.y1);
 	}
 	return (0);
 }
 
-static void	decider_dx(t_data data, t_linedata pixel, int check, int color)
+static void	decider_dx(t_fdf *fdf, t_linedata px, int check, int color)
 {
 	if (check == 0)
-		my_mlx_pixel_put(&data, pixel.x1, pixel.y1, color);
-	else
-		my_mlx_pixel_put(&data, pixel.y1, pixel.x1, color);
+	{
+		px.x1 += fdf->flag.hori;
+		px.y1 += fdf->flag.vert;
+		if (px.x1 < fdf->winsize.w && px.y1 < fdf->winsize.h
+			&& px.x1 >= 0 && px.y1 >= 0)
+			my_mlx_pixel_put(fdf, px.x1, px.y1, color);
+	}	
+	else if (check == 1)
+	{
+		px.y1 += fdf->flag.hori;
+		px.x1 += fdf->flag.vert;
+		if (px.y1 < fdf->winsize.w && px.x1 < fdf->winsize.h
+			&& px.x1 >= 0 && px.y1 >= 0)
+			my_mlx_pixel_put(fdf, px.y1, px.x1, color);
+	}
 }
 
-static void	decider_dy(t_data data, t_linedata pixel, int check, int color)
+static void	decider_dy(t_fdf *fdf, t_linedata px, int check, int color)
 {
 	if (check == 0)
-		my_mlx_pixel_put(&data, pixel.y1, pixel.x1, color);
-	else
-		my_mlx_pixel_put(&data, pixel.x1, pixel.y1, color);
+	{
+		px.y1 += fdf->flag.hori;
+		px.x1 += fdf->flag.vert;
+		if (px.y1 < fdf->winsize.w && px.x1 < fdf->winsize.h
+			&& px.x1 >= 0 && px.y1 >= 0)
+			my_mlx_pixel_put(fdf, px.y1, px.x1, color);
+	}
+	else if (check == 1)
+	{
+		px.x1 += fdf->flag.hori;
+		px.y1 += fdf->flag.vert;
+		if (px.x1 < fdf->winsize.w && px.y1 < fdf->winsize.h
+			&& px.x1 >= 0 && px.y1 >= 0)
+			my_mlx_pixel_put(fdf, px.x1, px.y1, color);
+	}
 }
 
-void	draw_line_dx(t_data data, t_linedata pixel, int check, int color)
+void	draw_line_dx(t_fdf *fdf, int check, int color)
 {
 	int	pk;
 	int	i;
 
-	pk = 2 * pixel.dy - pixel.dx;
+	pk = 2 * fdf->px.dy - fdf->px.dx;
 	i = -1;
-	while (++i <= pixel.dx)
+	while (++i < fdf->px.dx)
 	{
-		pixel.x1 = increment_decrement(pixel, 'x');
+		fdf->px.x1 = increment_decrement(fdf->px, 'x');
 		if (pk < 0)
 		{
-			decider_dx(data, pixel, check, color);
-			pk = pk + 2 * pixel.dy;
+			decider_dx(fdf, fdf->px, check, color);
+			pk = pk + 2 * fdf->px.dy;
 		}
 		else
 		{
-			pixel.y1 = increment_decrement(pixel, 'y');
-			decider_dx(data, pixel, check, color);
-			pk = pk + 2 * pixel.dy - 2 * pixel.dx;
+			fdf->px.y1 = increment_decrement(fdf->px, 'y');
+			decider_dx(fdf, fdf->px, check, color);
+			pk = pk + 2 * fdf->px.dy - 2 * fdf->px.dx;
 		}
 	}
 }
 
-void	draw_line_dy(t_data data, t_linedata pixel, int check, int color)
+void	draw_line_dy(t_fdf *fdf, int check, int color)
 {
 	int	pk;
 	int	i;
 
-	pk = 2 * pixel.dx - pixel.dy;
+	pk = 2 * fdf->px.dx - fdf->px.dy;
 	i = -1;
-	while (++i <= pixel.dy)
+	while (++i < fdf->px.dy)
 	{
-		pixel.y1 = increment_decrement(pixel, 'y');
+		fdf->px.y1 = increment_decrement(fdf->px, 'y');
 		if (pk < 0)
 		{
-			decider_dy(data, pixel, check, color);
-			pk = pk + 2 * pixel.dx;
+			decider_dy(fdf, fdf->px, check, color);
+			pk = pk + 2 * fdf->px.dx;
 		}
 		else
 		{
-			pixel.x1 = increment_decrement(pixel, 'x');
-			decider_dy(data, pixel, check, color);
-			pk = pk + 2 * pixel.dx - 2 * pixel.dy;
+			fdf->px.x1 = increment_decrement(fdf->px, 'x');
+			decider_dy(fdf, fdf->px, check, color);
+			pk = pk + 2 * fdf->px.dx - 2 * fdf->px.dy;
 		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:19:43 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/05 13:32:48 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/08 15:37:11 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,31 +39,32 @@ typedef struct s_map
 
 typedef struct s_pos
 {
-	double	x;
-	double	y;
+	int	x;
+	int	y;
 }	t_pos;
 
 typedef struct s_winsize
 {
-	int		width;
-	int		height;
+	int		w;
+	int		h;
 }	t_winsize;
 
 typedef struct s_linedata
 {
-	double	x1;
-	double	y1;
-	double	x2;
-	double	y2;
-	double	dx;
-	double	dy;
-	double	padding;
+	int	x1;
+	int	y1;
+	int z;
+	int	x2;
+	int	y2;
+	int	dx;
+	int	dy;
+	int	pad;
 }	t_linedata;
 
 typedef struct s_flags
 {
-	int		height_flag;
-	double	zoom_flag;
+	double		h;
+	double		zoom;
 	int		vert;
 	int		hori;
 }	t_flags;
@@ -72,9 +73,9 @@ typedef struct s_fdf
 {
 	t_data		mlx;
 	t_map		map;
-	t_winsize	win_size;
-	t_flags		flags;
-	t_linedata	pixel;
+	t_winsize	winsize;
+	t_flags		flag;
+	t_linedata	px;
 }	t_fdf;
 
 
@@ -83,16 +84,20 @@ typedef struct s_fdf
 ** events.c
 */
 
-int		keyb_event(int keycode, t_fdf *fdf);
-int		mouse_event(int mouse_button, t_fdf *fdf);
-int		exit_fdf();
+int		events(int keycode, t_fdf *fdf);
+int		keyboard_event(int keycode, t_fdf *fdf);
+int		zoom_event(int keycode, t_fdf *fdf);
+int		exit_event(int keycode, t_fdf *fdf);
+int		exit_fdf(t_fdf *fdf);
 
 /*
 ** draw_line.c
 */
 
-void	draw_line_dx(t_data data, t_linedata pixel, int check, int color);
-void	draw_line_dy(t_data data, t_linedata pixel, int check, int color);
+void	draw_line_dx(t_fdf *fdf, int check, int color);
+void	draw_line_dy(t_fdf *fdf, int check, int color);
+void	draw_line_dx2(t_fdf *fdf, int check, int color);
+void	draw_line_dy2(t_fdf *fdf, int check, int color);
 
 /*
 ** main.c
@@ -101,6 +106,6 @@ void	draw_line_dy(t_data data, t_linedata pixel, int check, int color);
 void	render_image(t_fdf *fdf);
 void	zoom_image(t_fdf *fdf);
 void	move_image(t_fdf *fdf);
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
+void	my_mlx_pixel_put(t_fdf *fdf, int x, int y, int color);
 
 #endif
