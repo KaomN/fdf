@@ -6,11 +6,11 @@
 #    By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/07 11:30:11 by conguyen          #+#    #+#              #
-#    Updated: 2022/03/09 10:39:30 by conguyen         ###   ########.fr        #
+#    Updated: 2022/03/09 10:46:10 by conguyen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = fdf
+NAME = fdf2
 
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra

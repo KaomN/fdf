@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:19:43 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/08 16:43:04 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/09 10:49:36 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,11 @@ typedef struct s_winsize
 
 typedef struct s_linedata
 {
-	int	x1;
-	int	y1;
+	double	x1;
+	double	y1;
 	int z;
-	int	x2;
-	int	y2;
+	double	x2;
+	double	y2;
 	int	dx;
 	int	dy;
 	int	pad;
@@ -64,7 +64,7 @@ typedef struct s_linedata
 typedef struct s_flags
 {
 	double		h;
-	double		zoom;
+	int		zoom;
 	int		vert;
 	int		hori;
 }	t_flags;

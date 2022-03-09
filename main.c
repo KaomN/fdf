@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 11:11:50 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/08 16:47:45 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/09 10:41:10 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,11 @@ void	initialize_mlx(t_fdf *fdf)
 
 void	initialize_fdf(t_fdf *fdf)
 {
-	fdf->flag.zoom = 1;
+	fdf->flag.zoom = 2;
 	fdf->winsize.w = 1200;
 	fdf->winsize.h = 1000;
 	fdf->px.pad = 150;
-	fdf->flag.h = 0.5;
+	fdf->flag.h = 0.25 * fdf->flag.zoom;
 	fdf->flag.hori = 0;
 	fdf->flag.vert = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:21:38 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/08 15:38:32 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/09 10:51:20 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ int	keyboard_event(int keycode, t_fdf *fdf)
 	}
 	if (keycode == 43 || keycode == 45)
 	{
-		if (keycode == 43 && fdf->flag.h < 20)
-				fdf->flag.h += 0.5;
+		if (keycode == 43 && fdf->flag.h < 5 * fdf->flag.zoom)
+				fdf->flag.h += 0.25 * fdf->flag.zoom;
 		if (keycode == 45 && fdf->flag.h > 0)
-				fdf->flag.h -= 0.5;
+				fdf->flag.h -= 0.25 * fdf->flag.zoom;
 		render_image(fdf);
 	}
 	if (keycode == 65307)
@@ -51,20 +51,18 @@ int	zoom_event(int keycode, t_fdf *fdf)
 {
 	if (keycode == 105 || keycode == 111)
 	{
-		if (keycode == 105 && fdf->flag.zoom < 5)
+		if (keycode == 105 && fdf->flag.zoom < 20)
 		{
 			fdf->flag.zoom += 1;
-			fdf->winsize.h *= fdf->flag.zoom;
-			fdf->winsize.w *= fdf->flag.zoom;
-			fdf->px.pad *= fdf->flag.zoom;
+			printf("zoom:%d\n", fdf->flag.zoom);
+			fdf->flag.h = 0.25 * fdf->flag.zoom;
 			render_image(fdf);
 		}
 		else if (keycode == 111 && fdf->flag.zoom > 1)
 		{
 			fdf->flag.zoom -= 1;
-			fdf->winsize.h /= fdf->flag.zoom;
-			fdf->winsize.w /= fdf->flag.zoom;
-			fdf->px.pad /= fdf->flag.zoom;
+			printf("zoom:%d\n", fdf->flag.zoom);
+			fdf->flag.h = 0.25 * fdf->flag.zoom;
 			render_image(fdf);
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 16:37:44 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/08 16:44:07 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/09 10:45:57 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,16 @@ static int	ft_abs(int num1, int num2)
 	return (num2 - num1);
 }
 
-static void	calc_line_vertical(t_fdf *fdf, int y, int x)
+static void	calc_line_horizontal(t_fdf *fdf, int y, int x)
 {
 	if (x == 0)
 	{
-		fdf->px.x1 = (fdf->winsize.w * 0.37) - 40 * y;
-		fdf->px.y1 = (20 * y + fdf->px.pad) - fdf->map.map[y][x] * fdf->flag.h;
+		fdf->px.x1 = (fdf->winsize.w * 0.37) - (5 * y) * fdf->flag.zoom;
+		fdf->px.y1 = ((2.5 * y) * fdf->flag.zoom + fdf->px.pad) - fdf->map.map[y][x] * fdf->flag.h;
 	}
 	fdf->px.z = (fdf->map.map[y][x] - fdf->map.map[y][x + 1]) * fdf->flag.h;
-	fdf->px.x2 = fdf->px.x1 + 40;
-	fdf->px.y2 = fdf->px.z + (fdf->px.y1 + 20);
+	fdf->px.x2 = fdf->px.x1 + (5 * fdf->flag.zoom);
+	fdf->px.y2 = fdf->px.z + fdf->px.y1 + (2.5 * fdf->flag.zoom);
 	fdf->px.dx = ft_abs(fdf->px.x2, fdf->px.x1);
 	fdf->px.dy = ft_abs(fdf->px.y2, fdf->px.y1);
 	if (fdf->px.dx > fdf->px.dy)
@@ -58,16 +58,16 @@ static void	calc_line_vertical(t_fdf *fdf, int y, int x)
 	fdf->px.x1 = fdf->px.x2;
 }
 
-static void	calc_line_horizontal(t_fdf *fdf, int y, int x)
+static void	calc_line_vertical(t_fdf *fdf, int y, int x)
 {
 	if (x == 0)
 	{
-		fdf->px.x1 = (fdf->winsize.w * 0.37) + 40 * y;
-		fdf->px.y1 = (20 * y + fdf->px.pad) - fdf->map.map[x][y] * fdf->flag.h;
+		fdf->px.x1 = (fdf->winsize.w * 0.37) + (5 * y) * fdf->flag.zoom;
+		fdf->px.y1 = ((2.5 * y) * fdf->flag.zoom + fdf->px.pad) - fdf->map.map[x][y] * fdf->flag.h;
 	}
 	fdf->px.z = (fdf->map.map[x][y] - fdf->map.map[x + 1][y]) * fdf->flag.h;
-	fdf->px.x2 = fdf->px.x1 - 40;
-	fdf->px.y2 = fdf->px.z + (fdf->px.y1 + 20);
+	fdf->px.x2 = fdf->px.x1 - (5 * fdf->flag.zoom);
+	fdf->px.y2 = fdf->px.z + fdf->px.y1 + (2.5 * fdf->flag.zoom);
 	fdf->px.dx = ft_abs(fdf->px.x2, fdf->px.x1);
 	fdf->px.dy = ft_abs(fdf->px.y2, fdf->px.y1);
 	if (fdf->px.dx > fdf->px.dy)
@@ -89,7 +89,7 @@ void	draw_image(t_fdf *fdf)
 		x = 0;
 		while (x < fdf->map.width - 1)
 		{
-			calc_line_vertical(fdf, y, x);
+			calc_line_horizontal(fdf, y, x);
 			x++;
 		}
 		y++;
@@ -100,7 +100,7 @@ void	draw_image(t_fdf *fdf)
 		x = 0;
 		while (x < fdf->map.height - 1)
 		{
-			calc_line_horizontal(fdf, y, x);
+			calc_line_vertical(fdf, y, x);
 			x++;
 		}
 		y++;
