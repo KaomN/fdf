@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:19:43 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/09 12:34:39 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/09 14:29:01 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define FDF_H
 
 # include "mlx_linux/mlx.h"
+# include <mlx.h>
+# include "key_define_mac.h"
+//# include "key_define_linux.h"
 # include <stdlib.h>
 # include "libft/libft.h"
 # include <stdio.h>
@@ -53,19 +56,19 @@ typedef struct s_linedata
 {
 	double	x1;
 	double	y1;
-	double z;
+	double	z;
 	double	x2;
 	double	y2;
 	double	dx;
 	double	dy;
-	int	pad;
+	int		pad;
 }	t_linedata;
 
 typedef struct s_flags
 {
-	double		h;
-	double		h_modifier;
-	double		zoom;
+	double	h;
+	double	h_modifier;
+	double	zoom;
 	int		vert;
 	int		hori;
 }	t_flags;
@@ -78,7 +81,6 @@ typedef struct s_fdf
 	t_flags		flag;
 	t_linedata	px;
 }	t_fdf;
-
 
 /* 
 ** pixel_put.c

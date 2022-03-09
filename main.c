@@ -6,23 +6,11 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 11:11:50 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/09 12:37:27 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/09 14:31:36 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-void	image_border(t_data data, t_fdf *fdf)
-{
-	for (int y = 0; y < fdf->winsize.h; y++)
-		my_mlx_pixel_put(fdf, 0, y, 0x00FFFFFF);
-	for (int y = 0; y < fdf->winsize.w; y++)
-		my_mlx_pixel_put(fdf, y, 0, 0x00FFFFFF);
-	for (int y = 0; y < fdf->winsize.h; y++)
-		my_mlx_pixel_put(fdf, fdf->winsize.w - 1, y, 0x00FFFFFF);
-	for (int y = 0; y < fdf->winsize.w; y++)
-		my_mlx_pixel_put(fdf, y, fdf->winsize.h - 1, 0x00FFFFFF);
-}
 
 void	clear_image(t_fdf *fdf)
 {
@@ -47,7 +35,6 @@ void	render_image(t_fdf *fdf)
 	mlx_clear_window(fdf->mlx.mlx, fdf->mlx.win);
 	clear_image(fdf);
 	draw_image(fdf);
-	image_border(fdf->mlx, fdf);
 	mlx_put_image_to_window(fdf->mlx.mlx, fdf->mlx.win, fdf->mlx.img, 0, 0);
 }
 

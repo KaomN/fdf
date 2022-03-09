@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:21:38 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/09 12:38:05 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/09 14:27:35 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,18 @@ int	events(int keycode, t_fdf *fdf)
 
 int	move_event(int keycode, t_fdf *fdf)
 {
-	if (keycode == 119 || keycode == 115 || keycode == 97 || keycode == 100)
+	if (keycode == KEY_W || keycode == KEY_S || keycode == KEY_A
+		|| keycode == KEY_D || keycode == KEY_UP || keycode == KEY_DOWN
+		|| keycode == KEY_LEFT || keycode == KEY_RIGHT)
 	{
-		if (keycode == 119)
-			fdf->flag.vert -= 10 * fdf->flag.zoom;
-		else if (keycode == 115)
-			fdf->flag.vert += 10 * fdf->flag.zoom;
-		else if (keycode == 97)
-			fdf->flag.hori -= 10 * fdf->flag.zoom;
+		if (keycode == KEY_W || keycode == KEY_UP)
+			fdf->flag.vert -= 20 + fdf->flag.zoom;
+		else if (keycode == KEY_S || keycode == KEY_DOWN)
+			fdf->flag.vert += 20 + fdf->flag.zoom;
+		else if (keycode == KEY_A || keycode == KEY_LEFT)
+			fdf->flag.hori -= 20 + fdf->flag.zoom;
 		else
-			fdf->flag.hori += 10 * fdf->flag.zoom;
+			fdf->flag.hori += 20 + fdf->flag.zoom;
 		render_image(fdf);
 		return (0);
 	}
@@ -40,35 +42,39 @@ int	move_event(int keycode, t_fdf *fdf)
 
 int	height_event(int keycode, t_fdf *fdf)
 {
-	if (keycode == 43 || keycode == 45)
+	if (keycode == KEY_PLUS || keycode == KEY_MINUS || keycode == KEY_PLUS_PAD
+		|| keycode == KEY_MINUS_PAD)
 	{
-		if (keycode == 43 && fdf->flag.h < 5 * fdf->flag.zoom)
+		if ((keycode == KEY_PLUS || keycode == KEY_PLUS_PAD)
+			&& fdf->flag.h < 5 * fdf->flag.zoom)
 		{
 			fdf->flag.h_modifier += 0.25;
 			fdf->flag.h = fdf->flag.h_modifier * fdf->flag.zoom;
 		}
-		if (keycode == 45 && fdf->flag.h > 0)
+		if ((keycode == KEY_MINUS || keycode == KEY_MINUS_PAD)
+			&& fdf->flag.h > 0)
 		{
 			fdf->flag.h_modifier -= 0.25;
 			fdf->flag.h = fdf->flag.h_modifier * fdf->flag.zoom;
 		}
 		render_image(fdf);
 	}
-	if (keycode == 65307)
+	if (keycode == KEY_ESC)
 		exit_fdf(fdf);
+	return (0);
 }
 
 int	zoom_event(int keycode, t_fdf *fdf)
 {
-	if (keycode == 105 || keycode == 111)
+	if (keycode == ZOOM_IN || keycode == ZOOM_OUT)
 	{
-		if (keycode == 105 && fdf->flag.zoom < 20)
+		if (keycode == ZOOM_IN && fdf->flag.zoom < 20)
 		{
 			fdf->flag.zoom += 1;
 			fdf->flag.h = fdf->flag.h_modifier * fdf->flag.zoom;
 			render_image(fdf);
 		}
-		else if (keycode == 111 && fdf->flag.zoom > 1)
+		else if (keycode == ZOOM_OUT && fdf->flag.zoom > 1)
 		{
 			fdf->flag.zoom -= 1;
 			fdf->flag.h = fdf->flag.h_modifier * fdf->flag.zoom;

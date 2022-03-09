@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:42:04 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/08 16:36:41 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/09 13:57:24 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static int	increment_decrement(t_linedata px, char ch)
 			return (++px.y1);
 		return (--px.y1);
 	}
+	return (0);
 }
 
 static void	decider_dx(t_fdf *fdf, t_linedata px, int check, int color)
