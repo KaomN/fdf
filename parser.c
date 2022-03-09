@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 16:42:19 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/08 16:43:01 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/09 12:24:01 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,28 +25,26 @@ void	free_str_arr(char **arr)
 	free(arr);
 }
 
-int	get_length(char *line)
+int	get_size(char **arr)
 {
 	int	x;
-	int	len;
 
 	x = 0;
-	len = 0;
-	while (line[x] != '\0')
-		if (ft_isdigit(line[x++]))
-			len++;
-	return (len);
+	while (arr[x] != NULL)
+		x++;
+	return (x);
 }
 
-int	*transform_array(char *lines)
+int	*transform_array(char *lines, t_fdf *fdf)
 {
 	int		*int_arr;
 	char	**lines_arr;
 	int		x;
 	size_t	size;
 
-	size = 300;
 	lines_arr = ft_strsplit(lines, ' ');
+	size = get_size(lines_arr);
+	fdf->map.width = size;
 	int_arr = (int *)malloc(sizeof(int) * size);
 	x = 0;
 	while (lines_arr[x] != NULL)

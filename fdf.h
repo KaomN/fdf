@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:19:43 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/09 10:49:36 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/09 12:34:39 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,18 +53,19 @@ typedef struct s_linedata
 {
 	double	x1;
 	double	y1;
-	int z;
+	double z;
 	double	x2;
 	double	y2;
-	int	dx;
-	int	dy;
+	double	dx;
+	double	dy;
 	int	pad;
 }	t_linedata;
 
 typedef struct s_flags
 {
 	double		h;
-	int		zoom;
+	double		h_modifier;
+	double		zoom;
 	int		vert;
 	int		hori;
 }	t_flags;
@@ -90,9 +91,9 @@ void	my_mlx_pixel_put(t_fdf *fdf, int x, int y, int color);
 */
 
 int		events(int keycode, t_fdf *fdf);
-int		keyboard_event(int keycode, t_fdf *fdf);
+int		move_event(int keycode, t_fdf *fdf);
 int		zoom_event(int keycode, t_fdf *fdf);
-int		exit_event(int keycode, t_fdf *fdf);
+int		height_event(int keycode, t_fdf *fdf);
 int		exit_fdf(t_fdf *fdf);
 
 /*
@@ -107,7 +108,7 @@ void	draw_image(t_fdf *fdf);
 
 void	free_str_arr(char **arr);
 int		get_length(char *line);
-int	*transform_array(char *lines);
+int		*transform_array(char *lines, t_fdf *fdf);
 
 /*
 ** draw_line.c
