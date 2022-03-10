@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 11:11:50 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/10 10:08:25 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/10 14:36:45 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,19 @@ void	initialize_mlx(t_fdf *fdf)
 void	initialize_fdf(t_fdf *fdf)
 {
 	fdf->flag.zoom = 1;
-	fdf->winsize.w = 1200;
+	fdf->winsize.w = 1400;
 	fdf->winsize.h = 1000;
-	fdf->px.pad = 150;
+	fdf->px.pad_h = 250;
+	fdf->px.pad_w = 370;
 	fdf->flag.h_modifier = 0.25;
 	fdf->flag.h = fdf->flag.h_modifier;
 	fdf->flag.hori = 0;
 	fdf->flag.vert = 0;
+	fdf->flag.proj_y = 2.5;
+	fdf->flag.proj_x = 5;
+	fdf->flag.para_y = 2.5;
+	fdf->flag.isom_x = 5;
+	fdf->flag.projection = 0;
 }
 
 int	main(void)

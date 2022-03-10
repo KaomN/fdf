@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 16:42:19 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/10 10:11:21 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/10 12:27:44 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,44 @@ static int	get_width(char **arr)
 	return (x);
 }
 
+static void	check_line(char **line)
+{
+	int	x;
+
+	x = 0;
+	while (line[x] != NULL)
+	{
+		if (!ft_isdigit(line[x][0]))
+		{
+			free_str_arr(line);
+			ft_putstr("Error\n");
+			exit (0);
+		}
+		x++;
+	}
+}
+
 void	transform_array(char *lines, t_fdf *fdf)
 {
-	int		*int_arr;
 	char	**lines_arr;
 	int		x;
 
 	lines_arr = ft_strsplit(lines, ' ');
-	fdf->map.width = get_width(lines_arr);
+	check_line(lines_arr);
+	if (fdf->map.width == 0)
+		fdf->map.width = get_width(lines_arr);
 	x = 0;
 	fdf->map.map[fdf->map.height] = (int *)malloc(sizeof(int) * fdf->map.width);
 	while (lines_arr[x] != NULL)
 	{
 		fdf->map.map[fdf->map.height][x] = ft_atoi(lines_arr[x]);
 		x++;
+	}
+	if (fdf->map.width != x)
+	{
+		ft_putstr("Error\n");
+		free_str_arr(lines_arr);
+		exit (0);
 	}
 	free_str_arr(lines_arr);
 }
