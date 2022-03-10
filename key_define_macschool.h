@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   key_define_mac.h                                   :+:      :+:    :+:   */
+/*   key_define_macschool.h                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 14:00:23 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/09 14:39:57 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/10 10:16:38 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef KEY_DEFINE_MAC_H
-# define KEY_DEFINE_MAC_H
+#ifndef KEY_DEFINE_MACSCHOOL_H
+# define KEY_DEFINE_MACSCHOOL_H
 
 # define KEY_ESC 53
 # define KEY_W 13

@@ -6,12 +6,12 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 14:05:53 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/10 08:36:43 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/10 10:16:31 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef KEY_DEFINE_LINUX_H
-# define KEY_DEFINE_LINUX_H
+#ifndef KEY_DEFINE_H
+# define KEY_DEFINE_H
 
 # define KEY_ESC 65307
 # define KEY_W 119
