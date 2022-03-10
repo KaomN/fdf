@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:21:38 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/10 14:43:05 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/10 16:38:17 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ int	move_event(int keycode, t_fdf *fdf)
 		fdf->flag.para_y = 0;
 		fdf->flag.proj_x = -5;
 		fdf->flag.projection == 0;
-		fdf->px.pad_w = 100 * fdf->flag.zoom;
+		fdf->px.pad_w = 25 * fdf->flag.zoom;
 	}
 	else
 	{
 		fdf->flag.para_y = 2.5;
 		fdf->flag.proj_x = 5;
 		fdf->flag.projection == 1;
-		fdf->px.pad_w = 100 * fdf->flag.zoom;
+		fdf->px.pad_w = -25 * fdf->flag.zoom;
 	}
 	render_image(fdf);
 	return (0);
