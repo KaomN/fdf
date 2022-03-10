@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:21:38 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/09 14:37:57 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/10 08:59:25 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	events(int keycode, t_fdf *fdf)
 {
+	// printf("%d\n", keycode);
 	move_event(keycode, fdf);
 	zoom_event(keycode, fdf);
 	height_event(keycode, fdf);
@@ -34,9 +35,8 @@ int	move_event(int keycode, t_fdf *fdf)
 			fdf->flag.hori -= 20 + fdf->flag.zoom;
 		else
 			fdf->flag.hori += 20 + fdf->flag.zoom;
-		render_image(fdf);
-		return (0);
 	}
+	render_image(fdf);
 	return (0);
 }
 
@@ -52,15 +52,15 @@ int	height_event(int keycode, t_fdf *fdf)
 			fdf->flag.h = fdf->flag.h_modifier * fdf->flag.zoom;
 		}
 		if ((keycode == KEY_MINUS || keycode == KEY_MINUS_PAD)
-			&& fdf->flag.h > 0)
+			&& fdf->flag.h > -5 * fdf->flag.zoom)
 		{
 			fdf->flag.h_modifier -= 0.25;
 			fdf->flag.h = fdf->flag.h_modifier * fdf->flag.zoom;
 		}
-		render_image(fdf);
 	}
 	if (keycode == KEY_ESC)
 		exit_fdf(fdf);
+	render_image(fdf);
 	return (0);
 }
 
@@ -72,15 +72,14 @@ int	zoom_event(int keycode, t_fdf *fdf)
 		{
 			fdf->flag.zoom += 1;
 			fdf->flag.h = fdf->flag.h_modifier * fdf->flag.zoom;
-			render_image(fdf);
 		}
 		else if (keycode == ZOOM_OUT && fdf->flag.zoom > 1)
 		{
 			fdf->flag.zoom -= 1;
 			fdf->flag.h = fdf->flag.h_modifier * fdf->flag.zoom;
-			render_image(fdf);
 		}
 	}
+	render_image(fdf);
 	return (0);
 }
 

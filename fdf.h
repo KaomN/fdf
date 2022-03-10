@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:19:43 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/09 14:38:30 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/10 10:09:13 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # include "mlx_linux/mlx.h"
 # include <mlx.h>
-# include "key_define_mac.h"
-//# include "key_define_linux.h"
+//# include "key_define_macschool.h"
+# include "key_define.h"
 # include <stdlib.h>
 # include "libft/libft.h"
 # include <stdio.h>
@@ -69,6 +69,7 @@ typedef struct s_flags
 	double	h;
 	double	h_modifier;
 	double	zoom;
+	double	angle_mod;
 	int		vert;
 	int		hori;
 }	t_flags;
@@ -108,9 +109,7 @@ void	draw_image(t_fdf *fdf);
 ** draw_line.c
 */
 
-void	free_str_arr(char **arr);
-int		get_length(char *line);
-int		*transform_array(char *lines, t_fdf *fdf);
+void	transform_array(char *lines, t_fdf *fdf);
 
 /*
 ** draw_line.c

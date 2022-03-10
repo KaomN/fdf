@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   key_define_linux.h                                 :+:      :+:    :+:   */
+/*   key_define.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 14:05:53 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/09 14:39:15 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/10 08:36:43 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@
 # define KEY_A 97
 # define KEY_S 115
 # define KEY_D 100
-//# define KEY_UP 126
-//# define KEY_LEFT 123
-//# define KEY_DOWN 125
-//# define KEY_RIGHT 124
+# define KEY_UP 119
+# define KEY_LEFT 97
+# define KEY_DOWN 115
+# define KEY_RIGHT 100
 # define KEY_PLUS 43
 # define KEY_MINUS 45
-//# define KEY_PLUS_PAD
-//# define KEY_MINUS_PAD
+# define KEY_PLUS_PAD 43
+# define KEY_MINUS_PAD 45
 # define ZOOM_IN 105
 # define ZOOM_OUT 111
 
