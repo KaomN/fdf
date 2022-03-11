@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:19:43 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/11 09:41:17 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/11 09:48:33 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ typedef struct s_flags
 	double	h;
 	double	h_modifier;
 	double	zoom;
-	double	angle_mod;
 	int		vert;
 	int		hori;
 	double	proj_y;
