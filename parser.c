@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 16:42:19 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/10 12:27:44 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/11 08:12:11 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,16 @@ static void	check_line(char **line)
 	x = 0;
 	while (line[x] != NULL)
 	{
-		if (!ft_isdigit(line[x][0]))
+		if (line[x][0] == '-' && !ft_isdigit(line[x][1]))
 		{
 			free_str_arr(line);
-			ft_putstr("Error\n");
+			ft_putstr("Error map contains char that is not a digit\n");
+			exit (0);
+		}
+		if (line[x][0] != '-' && !ft_isdigit(line[x][0]))
+		{
+			free_str_arr(line);
+			ft_putstr("Error map contains char that is not a digit\n");
 			exit (0);
 		}
 		x++;

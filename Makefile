@@ -6,7 +6,7 @@
 #    By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/07 11:30:11 by conguyen          #+#    #+#              #
-#    Updated: 2022/03/10 10:11:30 by conguyen         ###   ########.fr        #
+#    Updated: 2022/03/11 09:40:01 by conguyen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,12 +15,13 @@ NAME = fdf1
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra
 LEAK = -fsanitize=leak
+LIBFT = libft/
 
 CFILES += main.c
 CFILES += events.c
 CFILES += draw_line.c
 CFILES += draw_image.c
-CFILES += pixel_put.c
+CFILES += draw.c
 CFILES += parser.c
 
 OBJ = $(CFILES:.c=.o)
@@ -28,6 +29,7 @@ OBJ = $(CFILES:.c=.o)
 all: $(NAME)
 
 $(NAME):
+	make -C $(LIBFT)
 #	$(CC) -c $(CFLAGS) -I includes $(CFILES)
 #	Compile on Mac
 #	$(CC) $(CFILES) $(CFLAGS) -L/usr/local/lib/ -lmlx -Llibft -lft -framework OpenGL -framework AppKit
@@ -37,8 +39,10 @@ $(NAME):
 
 clean:
 	/bin/rm -f $(OBJ)
-
+	make -C $(LIBFT) clean
+	
 fclean: clean
 	/bin/rm -f $(NAME)
+	make -C $(LIBFT) fclean
 
 re: fclean all

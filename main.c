@@ -6,36 +6,17 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 11:11:50 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/10 16:38:40 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/11 09:36:54 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	clear_image(t_fdf *fdf)
+int	exit_fdf(t_fdf *fdf)
 {
-	int	x;
-	int	y;
-
-	x = 0;
-	while (x < fdf->winsize.w)
-	{
-		y = 0;
-		while (y < fdf->winsize.h)
-		{
-			my_mlx_pixel_put(fdf, x, y, 0x00000000);
-			++y;
-		}
-		++x;
-	}
-}
-
-void	render_image(t_fdf *fdf)
-{
-	mlx_clear_window(fdf->mlx.mlx, fdf->mlx.win);
-	clear_image(fdf);
-	draw_image(fdf);
-	mlx_put_image_to_window(fdf->mlx.mlx, fdf->mlx.win, fdf->mlx.img, 0, 0);
+	mlx_destroy_image(fdf->mlx.mlx, fdf->mlx.img);
+	mlx_destroy_window(fdf->mlx.mlx, fdf->mlx.win);
+	exit (0);
 }
 
 void	initialize_mlx(t_fdf *fdf)
@@ -62,7 +43,7 @@ void	initialize_fdf(t_fdf *fdf)
 	fdf->winsize.w = 1400;
 	fdf->winsize.h = 1000;
 	fdf->px.pad_h = 250;
-	fdf->px.pad_w = 25;
+	fdf->px.pad_w = 0;
 	fdf->flag.h_modifier = 0.25;
 	fdf->flag.h = fdf->flag.h_modifier;
 	fdf->flag.hori = 0;

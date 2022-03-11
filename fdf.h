@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:19:43 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/10 14:36:49 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/11 09:41:17 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "mlx_linux/mlx.h"
 # include <mlx.h>
-//# include "key_define_macschool.h"
+/* include "key_define_macschool.h" */
 # include "key_define.h"
 # include <stdlib.h>
 # include "libft/libft.h"
@@ -77,6 +77,7 @@ typedef struct s_flags
 	double	proj_x;
 	double	para_y;
 	double	isom_x;
+	double	pad_modifier;
 	int		projection;
 }	t_flags;
 
@@ -90,29 +91,27 @@ typedef struct s_fdf
 }	t_fdf;
 
 /* 
-** pixel_put.c
+** draw.c
 */
 
 void	my_mlx_pixel_put(t_fdf *fdf, int x, int y, int color);
+void	clear_image(t_fdf *fdf);
+void	render_image(t_fdf *fdf);
 
 /* 
 ** events.c
 */
 
 int		events(int keycode, t_fdf *fdf);
-int		move_event(int keycode, t_fdf *fdf);
-int		zoom_event(int keycode, t_fdf *fdf);
-int		height_event(int keycode, t_fdf *fdf);
-int		exit_fdf(t_fdf *fdf);
 
 /*
-** draw_line.c
+** draw_image.c
 */
 
 void	draw_image(t_fdf *fdf);
 
 /*
-** draw_line.c
+** parser.c
 */
 
 void	transform_array(char *lines, t_fdf *fdf);
@@ -130,9 +129,6 @@ void	draw_line_dy2(t_fdf *fdf, int check, int color);
 ** main.c
 */
 
-void	render_image(t_fdf *fdf);
-void	zoom_image(t_fdf *fdf);
-void	move_image(t_fdf *fdf);
-void	my_mlx_pixel_put(t_fdf *fdf, int x, int y, int color);
+int		exit_fdf(t_fdf *fdf);
 
 #endif
