@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 16:37:44 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/11 09:37:08 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/14 14:27:32 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,18 @@ static int	get_color(t_fdf *fdf, int x, int y, int check)
 	if (check == 0)
 	{
 		if (fdf->map.map[x][y] < fdf->map.map[x][y + 1])
-			return (0x00FF0000);
+			return (0xFF0000);
 		else if (fdf->map.map[x][y] > fdf->map.map[x][y + 1])
-			return (0x00FF0000);
+			return (0xFF0000);
 	}
 	else
 	{
 		if (fdf->map.map[x][y] < fdf->map.map[x + 1][y])
-			return (0x00FF0000);
+			return (0xFF0000);
 		else if (fdf->map.map[x][y] > fdf->map.map[x + 1][y])
-			return (0x00FF0000);
+			return (0xFF0000);
 	}
-	return (0x00FFFFFF);
+	return (0xFFFFFF);
 }
 
 static void	calc_line_horizontal(t_fdf *fdf, int y, int x)
@@ -52,9 +52,9 @@ static void	calc_line_horizontal(t_fdf *fdf, int y, int x)
 	if (fdf->px.dy < 0)
 		fdf->px.dy = -fdf->px.dy;
 	if (fdf->px.dx > fdf->px.dy)
-		draw_line_dx(fdf, 0, get_color(fdf, y, x, 0));
+		draw_line_dx(fdf, 0, fdf->map.color[y][x]);
 	else
-		draw_line_dy(fdf, 1, get_color(fdf, y, x, 0));
+		draw_line_dy(fdf, 1, fdf->map.color[y][x]);
 	fdf->px.y1 = fdf->px.y2;
 	fdf->px.x1 = fdf->px.x2;
 }
@@ -78,9 +78,9 @@ static void	calc_line_vertical(t_fdf *fdf, int y, int x)
 	if (fdf->px.dy < 0)
 		fdf->px.dy = -fdf->px.dy;
 	if (fdf->px.dx > fdf->px.dy)
-		draw_line_dx(fdf, 0, get_color(fdf, x, y, 1));
+		draw_line_dx(fdf, 0, fdf->map.color[x][y]);
 	else
-		draw_line_dy(fdf, 1, get_color(fdf, x, y, 1));
+		draw_line_dy(fdf, 1, fdf->map.color[x][y]);
 	fdf->px.y1 = fdf->px.y2;
 	fdf->px.x1 = fdf->px.x2;
 }

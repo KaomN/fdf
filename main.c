@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 11:11:50 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/11 09:36:54 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/14 15:28:07 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	exit_fdf(t_fdf *fdf)
 	exit (0);
 }
 
-void	initialize_mlx(t_fdf *fdf)
+static void	initialize_mlx(t_fdf *fdf)
 {
 	void	*mlx;
 	void	*win;
@@ -37,7 +37,7 @@ void	initialize_mlx(t_fdf *fdf)
 	mlx_loop(fdf->mlx.mlx = mlx);
 }
 
-void	initialize_fdf(t_fdf *fdf)
+static void	initialize_fdf(t_fdf *fdf)
 {
 	fdf->flag.zoom = 1;
 	fdf->winsize.w = 1400;
@@ -55,6 +55,45 @@ void	initialize_fdf(t_fdf *fdf)
 	fdf->flag.projection = 0;
 }
 
+int	**inc_size(int **old_arr, int old_size, int new_size, int width)
+{
+	int	**new_arr;
+	int	x;
+
+	new_arr = (int **)malloc(sizeof(int *) * new_size);
+	x = 0;
+	while (x < old_size)
+	{
+		new_arr[x] = (int *)malloc(sizeof(int) * width);
+		ft_memcpy(new_arr[x], old_arr[x], width * sizeof(int));
+		free(old_arr[x]);
+		x++;
+	}
+	free(old_arr);
+	return (new_arr);
+}
+
+void	get_line(t_fdf *fdf, int fd, size_t size)
+{
+	char	*lines;
+
+	while (get_next_line(fd, &lines))
+	{
+		if (size == fdf->map.height)
+		{
+			size *= 2;
+			fdf->map.map = inc_size(fdf->map.map, size / 2,
+					size, fdf->map.width);
+			fdf->map.color = inc_size(fdf->map.color, size / 2,
+					size, fdf->map.width);
+		}
+		transform_array(lines, fdf);
+		free(lines);
+		fdf->map.height++;
+	}
+	free(lines);
+}
+
 int	main(void)
 {
 	int		fd;
@@ -62,22 +101,16 @@ int	main(void)
 	t_fdf	fdf;
 	size_t	size;
 
-	size = 300;
-	fd = open("42.fdf", O_RDONLY);
+	size = 32;
+	fd = open("t1.fdf", O_RDONLY);
 	ft_bzero(&fdf, sizeof(t_fdf));
 	if (fd < 0)
-	{
-		printf("Error\n");
+		ft_putstr("Error\n");
+	if (fd < 0)
 		return (0);
-	}
-	fdf.map.height = 0;
 	fdf.map.map = (int **)malloc(sizeof(int *) * size);
-	while (get_next_line(fd, &lines))
-	{
-		transform_array(lines, &fdf);
-		free(lines);
-		fdf.map.height++;
-	}
+	fdf.map.color = (int **)malloc(sizeof(int *) * size);
+	get_line(&fdf, fd, size);
 	initialize_fdf(&fdf);
 	initialize_mlx(&fdf);
 	return (0);

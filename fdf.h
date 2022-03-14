@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:19:43 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/11 09:48:33 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/14 14:10:15 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_data
 typedef struct s_map
 {
 	int	**map;
+	int	**color;
 	int	width;
 	int	height;
 }	t_map;
@@ -110,12 +111,6 @@ int		events(int keycode, t_fdf *fdf);
 void	draw_image(t_fdf *fdf);
 
 /*
-** parser.c
-*/
-
-void	transform_array(char *lines, t_fdf *fdf);
-
-/*
 ** draw_line.c
 */
 
@@ -123,6 +118,26 @@ void	draw_line_dx(t_fdf *fdf, int check, int color);
 void	draw_line_dy(t_fdf *fdf, int check, int color);
 void	draw_line_dx2(t_fdf *fdf, int check, int color);
 void	draw_line_dy2(t_fdf *fdf, int check, int color);
+
+/*
+** parser.c
+*/
+
+void	transform_array(char *lines, t_fdf *fdf);
+
+/*
+** parser_check.c
+*/
+
+void	free_str_arr(char **arr);
+void	check_line(char **line);
+int		check_width(char **lines_arr, t_fdf *fdf, int x);
+
+/*
+** color_parser.c
+*/
+
+int		check_color_line(char *line, t_fdf *fdf, int x);
 
 /*
 ** main.c

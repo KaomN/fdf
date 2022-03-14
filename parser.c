@@ -6,22 +6,23 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 16:42:19 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/11 08:12:11 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/14 14:37:36 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static void	free_str_arr(char **arr)
+static void	error_exit(char **lines)
 {
 	int	x;
 
 	x = 0;
-	while (arr[x] != NULL)
+	while (lines[x] != NULL)
 	{
-		free(arr[x++]);
+		free(lines[x++]);
 	}
-	free(arr);
+	free(lines);
+	exit (0);
 }
 
 static int	get_width(char **arr)
@@ -34,27 +35,44 @@ static int	get_width(char **arr)
 	return (x);
 }
 
-static void	check_line(char **line)
+static char	*get_color_line(char *line)
 {
 	int	x;
 
 	x = 0;
-	while (line[x] != NULL)
+	while (1)
 	{
-		if (line[x][0] == '-' && !ft_isdigit(line[x][1]))
-		{
-			free_str_arr(line);
-			ft_putstr("Error map contains char that is not a digit\n");
-			exit (0);
-		}
-		if (line[x][0] != '-' && !ft_isdigit(line[x][0]))
-		{
-			free_str_arr(line);
-			ft_putstr("Error map contains char that is not a digit\n");
-			exit (0);
-		}
+		if (*line == ',')
+			break ;
+		line++;
+	}
+	line++;
+	while (line[x] != '\0')
+	{
+		if (line[x] == 'X')
+			line[x] = line[x] + 32;
+		if (ft_isalpha(line[x]))
+			if (ft_islower(line[x]))
+				if (line[x] != 'x')
+					line[x] = line[x] - 32;
 		x++;
 	}
+	return (line);
+}
+
+static int	check_line_for_color(char *line, t_fdf *fdf, int x)
+{
+	int	c;
+
+	c = 0;
+	fdf->map.color[fdf->map.height][x] = 0xFFFFFF;
+	while (line[c] != '\0')
+	{
+		if (line[c] == ',')
+			return (1);
+		c++;
+	}
+	return (0);
 }
 
 void	transform_array(char *lines, t_fdf *fdf)
@@ -66,18 +84,17 @@ void	transform_array(char *lines, t_fdf *fdf)
 	check_line(lines_arr);
 	if (fdf->map.width == 0)
 		fdf->map.width = get_width(lines_arr);
-	x = 0;
+	x = -1;
 	fdf->map.map[fdf->map.height] = (int *)malloc(sizeof(int) * fdf->map.width);
-	while (lines_arr[x] != NULL)
+	fdf->map.color[fdf->map.height] = (int *)malloc(sizeof(int)
+			* fdf->map.width);
+	while (lines_arr[++x] != NULL)
 	{
 		fdf->map.map[fdf->map.height][x] = ft_atoi(lines_arr[x]);
-		x++;
+		if (check_line_for_color(lines_arr[x], fdf, x))
+			if (!check_color_line(get_color_line(lines_arr[x]), fdf, x))
+				error_exit(lines_arr);
 	}
-	if (fdf->map.width != x)
-	{
-		ft_putstr("Error\n");
-		free_str_arr(lines_arr);
-		exit (0);
-	}
+	check_width(lines_arr, fdf, x);
 	free_str_arr(lines_arr);
 }
