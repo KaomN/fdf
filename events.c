@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:21:38 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/14 15:37:35 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/14 15:46:26 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,14 @@ static int	projection_event(int keycode, t_fdf *fdf)
 		if (fdf->flag.projection)
 		{
 			fdf->flag.para_y = 0;
-			fdf->flag.proj_x = -5;
+			fdf->flag.proj_x = -2.5;
 			fdf->flag.projection == 0;
 			fdf->px.pad_w = fdf->flag.pad_modifier;
 		}
 		else
 		{
-			fdf->flag.para_y = 2.5;
-			fdf->flag.proj_x = 5;
+			fdf->flag.para_y = 1.25;
+			fdf->flag.proj_x = 2.5;
 			fdf->flag.projection == 1;
 			fdf->px.pad_w = fdf->flag.pad_modifier * -1;
 		}
