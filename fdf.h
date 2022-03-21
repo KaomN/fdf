@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:19:43 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/14 14:10:15 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/21 13:29:54 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,24 @@ typedef struct s_linedata
 	double	y2;
 	double	dx;
 	double	dy;
-	double	pad_h;
-	double	pad_w;
+	int	pad_h;
+	int	pad_w;
+	int	curr_color;
+	int	next_color;
 }	t_linedata;
+
+typedef struct s_color
+{
+	int	r;
+	int	g;
+	int	b;
+}	t_color;
 
 typedef struct s_flags
 {
 	double	h;
 	double	h_modifier;
-	double	zoom;
+	int		zoom;
 	int		vert;
 	int		hori;
 	double	proj_y;
@@ -114,10 +123,8 @@ void	draw_image(t_fdf *fdf);
 ** draw_line.c
 */
 
-void	draw_line_dx(t_fdf *fdf, int check, int color);
-void	draw_line_dy(t_fdf *fdf, int check, int color);
-void	draw_line_dx2(t_fdf *fdf, int check, int color);
-void	draw_line_dy2(t_fdf *fdf, int check, int color);
+void	draw_line_dx(t_fdf *fdf, int check);
+void	draw_line_dy(t_fdf *fdf, int check);
 
 /*
 ** parser.c

@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 07:54:06 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/14 14:41:54 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/21 11:52:06 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	color_error(void)
 {
 	ft_putstr("Error color Hex\n");
-	return (-1);
+	return (0);
 }
 
 static int	hex_to_dec(char c)

@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 11:11:50 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/14 15:47:40 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/21 13:21:53 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,14 @@ static void	initialize_fdf(t_fdf *fdf)
 	fdf->winsize.h = 1000;
 	fdf->px.pad_h = 250;
 	fdf->px.pad_w = 0;
-	fdf->flag.h_modifier = 0.25;
+	fdf->flag.h_modifier = 1;
 	fdf->flag.h = fdf->flag.h_modifier * fdf->flag.zoom;
 	fdf->flag.hori = 0;
 	fdf->flag.vert = 0;
-	fdf->flag.proj_y = 1.25;
-	fdf->flag.proj_x = 2.5;
-	fdf->flag.para_y = 1.25;
-	fdf->flag.isom_x = 2.5;
+	fdf->flag.proj_y = 1;
+	fdf->flag.proj_x = 2;
+	fdf->flag.para_y = 1;
+	fdf->flag.isom_x = 2;
 	fdf->flag.projection = 0;
 }
 

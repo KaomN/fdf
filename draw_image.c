@@ -6,55 +6,45 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 16:37:44 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/14 14:27:32 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/21 13:26:33 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static int	get_color(t_fdf *fdf, int x, int y, int check)
+static void	calc_delta(t_fdf *fdf)
 {
-	if (check == 0)
-	{
-		if (fdf->map.map[x][y] < fdf->map.map[x][y + 1])
-			return (0xFF0000);
-		else if (fdf->map.map[x][y] > fdf->map.map[x][y + 1])
-			return (0xFF0000);
-	}
-	else
-	{
-		if (fdf->map.map[x][y] < fdf->map.map[x + 1][y])
-			return (0xFF0000);
-		else if (fdf->map.map[x][y] > fdf->map.map[x + 1][y])
-			return (0xFF0000);
-	}
-	return (0xFFFFFF);
-}
-
-static void	calc_line_horizontal(t_fdf *fdf, int y, int x)
-{
-	if (x == 0)
-	{
-		fdf->px.x1 = (fdf->winsize.w * 0.37) - fdf->px.pad_w
-			- (fdf->flag.proj_x * y) * fdf->flag.zoom;
-		fdf->px.y1 = ((fdf->flag.proj_y * y) * fdf->flag.zoom + fdf->px.pad_h
-				- fdf->flag.zoom * 20) - fdf->map.map[y][x] * fdf->flag.h;
-	}
-	fdf->px.z = (fdf->map.map[y][x] - fdf->map.map[y][x + 1]) * fdf->flag.h;
-	fdf->px.x2 = fdf->px.x1 + (fdf->flag.isom_x * fdf->flag.zoom);
-	fdf->px.y2 = fdf->px.z + fdf->px.y1 + (fdf->flag.para_y * fdf->flag.zoom);
-	if (y == 0 && x == fdf->map.width - 2)
-		fdf->flag.pad_modifier = (fdf->px.x2 - (fdf->winsize.w * 0.37)) / 2;
 	fdf->px.dx = fdf->px.x1 - fdf->px.x2;
 	if (fdf->px.dx < 0)
 		fdf->px.dx = -fdf->px.dx;
 	fdf->px.dy = fdf->px.y1 - fdf->px.y2;
 	if (fdf->px.dy < 0)
 		fdf->px.dy = -fdf->px.dy;
+}
+
+static void	calc_line_horizontal(t_fdf *fdf, int y, int x)
+{
+	if (x == 0)
+	{
+		fdf->px.x1 = (400 - fdf->px.pad_w
+				- (fdf->flag.proj_x * y) * fdf->flag.zoom);
+		fdf->px.y1 = ((fdf->flag.proj_y * y) * fdf->flag.zoom + fdf->px.pad_h
+				- fdf->flag.zoom * 20) - fdf->map.map[y][x] * fdf->flag.h / 10;
+	}
+	fdf->px.z = (fdf->map.map[y][x] - fdf->map.map[y][x + 1])
+		* fdf->flag.h / 10;
+	fdf->px.x2 = fdf->px.x1 + (fdf->flag.isom_x * fdf->flag.zoom);
+	fdf->px.y2 = fdf->px.z + fdf->px.y1 + (fdf->flag.para_y * fdf->flag.zoom);
+	if (y == 0 && x == fdf->map.width - 2)
+		fdf->flag.pad_modifier = (fdf->px.x2 - 400) / 2;
+	fdf->px.dx = fdf->px.x1 - fdf->px.x2;
+	fdf->px.curr_color = fdf->map.color[y][x];
+	fdf->px.next_color = fdf->map.color[y][x + 1];
+	calc_delta(fdf);
 	if (fdf->px.dx > fdf->px.dy)
-		draw_line_dx(fdf, 0, fdf->map.color[y][x]);
+		draw_line_dx(fdf, 0);
 	else
-		draw_line_dy(fdf, 1, fdf->map.color[y][x]);
+		draw_line_dy(fdf, 1);
 	fdf->px.y1 = fdf->px.y2;
 	fdf->px.x1 = fdf->px.x2;
 }
@@ -63,24 +53,25 @@ static void	calc_line_vertical(t_fdf *fdf, int y, int x)
 {
 	if (x == 0)
 	{
-		fdf->px.x1 = (fdf->winsize.w * 0.37) - fdf->px.pad_w
+		fdf->px.x1 = 400 - fdf->px.pad_w
 			+ (fdf->flag.isom_x * y) * fdf->flag.zoom;
+		if (x == 0 && y == 0)
+			fdf->px.x1 += 1;
 		fdf->px.y1 = ((fdf->flag.para_y * y) * fdf->flag.zoom + (fdf->px.pad_h
-					- fdf->flag.zoom * 20)) - fdf->map.map[x][y] * fdf->flag.h;
+					- fdf->flag.zoom * 20))
+			- fdf->map.map[x][y] * fdf->flag.h / 10;
 	}
-	fdf->px.z = (fdf->map.map[x][y] - fdf->map.map[x + 1][y]) * fdf->flag.h;
+	fdf->px.z = (fdf->map.map[x][y] - fdf->map.map[x + 1][y])
+		* fdf->flag.h / 10;
 	fdf->px.x2 = fdf->px.x1 - (fdf->flag.proj_x * fdf->flag.zoom);
 	fdf->px.y2 = fdf->px.z + fdf->px.y1 + (fdf->flag.proj_y * fdf->flag.zoom);
-	fdf->px.dx = fdf->px.x1 - fdf->px.x2;
-	if (fdf->px.dx < 0)
-		fdf->px.dx = -fdf->px.dx;
-	fdf->px.dy = fdf->px.y1 - fdf->px.y2;
-	if (fdf->px.dy < 0)
-		fdf->px.dy = -fdf->px.dy;
+	fdf->px.curr_color = fdf->map.color[x][y];
+	fdf->px.next_color = fdf->map.color[x + 1][y];
+	calc_delta(fdf);
 	if (fdf->px.dx > fdf->px.dy)
-		draw_line_dx(fdf, 0, fdf->map.color[x][y]);
+		draw_line_dx(fdf, 0);
 	else
-		draw_line_dy(fdf, 1, fdf->map.color[x][y]);
+		draw_line_dy(fdf, 1);
 	fdf->px.y1 = fdf->px.y2;
 	fdf->px.x1 = fdf->px.x2;
 }
