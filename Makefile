@@ -6,7 +6,7 @@
 #    By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/07 11:30:11 by conguyen          #+#    #+#              #
-#    Updated: 2022/03/21 11:49:51 by conguyen         ###   ########.fr        #
+#    Updated: 2022/03/21 13:36:23 by conguyen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ CFILES += draw.c
 CFILES += parser.c
 CFILES += color_parser.c
 CFILES += parser_check.c
+CFILES += color.c
 
 OBJ = $(CFILES:.c=.o)
 

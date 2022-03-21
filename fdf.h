@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:19:43 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/21 13:29:54 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/21 13:36:34 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,12 @@ int		check_width(char **lines_arr, t_fdf *fdf, int x);
 */
 
 int		check_color_line(char *line, t_fdf *fdf, int x);
+
+/*
+** color.c
+*/
+
+int	color_fade(t_fdf *fdf, int mod, int distance);
 
 /*
 ** main.c
