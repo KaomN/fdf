@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 11:11:50 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/21 13:36:43 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/21 13:45:46 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static void	initialize_fdf(t_fdf *fdf)
 	fdf->px.pad_w = 0;
 	fdf->flag.h_modifier = 1;
 	fdf->flag.h = fdf->flag.h_modifier * fdf->flag.zoom;
+	fdf->flag.color = 0;
 	fdf->flag.hori = 0;
 	fdf->flag.vert = 0;
 	fdf->flag.proj_y = 1;
@@ -79,7 +80,7 @@ void	get_line(t_fdf *fdf, int fd, size_t size)
 
 	while (get_next_line(fd, &lines))
 	{
-		if (size == fdf->map.height)
+		if (size == (unsigned int)fdf->map.height)
 		{
 			size *= 2;
 			fdf->map.map = inc_size(fdf->map.map, size / 2,
@@ -97,7 +98,6 @@ void	get_line(t_fdf *fdf, int fd, size_t size)
 int	main(void)
 {
 	int		fd;
-	char	*lines;
 	t_fdf	fdf;
 	size_t	size;
 

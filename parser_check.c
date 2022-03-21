@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 13:31:51 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/14 14:07:48 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/21 13:41:57 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	check_line(char **line)
 	}
 }
 
-int	check_width(char **lines_arr, t_fdf *fdf, int x)
+void	check_width(char **lines_arr, t_fdf *fdf, int x)
 {
 	if (fdf->map.width != x)
 	{

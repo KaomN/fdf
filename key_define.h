@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 14:05:53 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/10 13:52:41 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/21 13:47:46 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # define KEY_PLUS_PAD 43
 # define KEY_MINUS_PAD 45
 # define KEY_P 112
+# define KEY_C 99
 # define ZOOM_IN 105
 # define ZOOM_OUT 111
 

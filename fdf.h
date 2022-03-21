@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:19:43 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/21 13:36:34 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/21 13:45:26 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,10 @@ typedef struct s_linedata
 	double	y2;
 	double	dx;
 	double	dy;
-	int	pad_h;
-	int	pad_w;
-	int	curr_color;
-	int	next_color;
+	int		pad_h;
+	int		pad_w;
+	int		curr_color;
+	int		next_color;
 }	t_linedata;
 
 typedef struct s_color
@@ -88,6 +88,7 @@ typedef struct s_flags
 	double	isom_x;
 	double	pad_modifier;
 	int		projection;
+	int		color;
 }	t_flags;
 
 typedef struct s_fdf
@@ -138,7 +139,7 @@ void	transform_array(char *lines, t_fdf *fdf);
 
 void	free_str_arr(char **arr);
 void	check_line(char **line);
-int		check_width(char **lines_arr, t_fdf *fdf, int x);
+void	check_width(char **lines_arr, t_fdf *fdf, int x);
 
 /*
 ** color_parser.c
@@ -150,7 +151,8 @@ int		check_color_line(char *line, t_fdf *fdf, int x);
 ** color.c
 */
 
-int	color_fade(t_fdf *fdf, int mod, int distance);
+int		color_fade(t_fdf *fdf, int mod, int distance);
+int		coloring(t_fdf *fdf, int mod, int distance);
 
 /*
 ** main.c

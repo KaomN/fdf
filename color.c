@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 11:12:42 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/21 13:34:04 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/21 13:50:42 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,14 @@ int	color_fade(t_fdf *fdf, int mod, int distance)
 	green = current.g + ((double)(next.g - current.g) / distance) * mod;
 	blue = current.b + ((double)(next.b - current.b) / distance) * mod;
 	return ((red << 16) + (green << 8) + blue);
+}
+
+int	coloring(t_fdf *fdf, int mod, int distance)
+{
+	if (fdf->flag.color == 0)
+		return (color_fade(fdf, mod, distance));
+	//if (fdf->flag.color == 1)
+
+	//if (fdf->flag.color == 3)
+	return (0);
 }

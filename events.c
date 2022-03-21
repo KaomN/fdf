@@ -6,13 +6,13 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:21:38 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/21 12:53:09 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/21 13:52:05 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static int	move_event(int keycode, t_fdf *fdf)
+static int	move_zoom_event(int keycode, t_fdf *fdf)
 {
 	if (keycode == KEY_W || keycode == KEY_UP)
 		fdf->flag.vert -= 20 + fdf->flag.zoom;
@@ -22,11 +22,6 @@ static int	move_event(int keycode, t_fdf *fdf)
 		fdf->flag.hori -= 20 + fdf->flag.zoom;
 	if (keycode == KEY_D || keycode == KEY_RIGHT)
 		fdf->flag.hori += 20 + fdf->flag.zoom;
-	return (0);
-}
-
-static int	zoom_event(int keycode, t_fdf *fdf)
-{
 	if (keycode == ZOOM_IN && fdf->flag.zoom < 20)
 	{
 		fdf->flag.zoom += 1;
@@ -36,6 +31,15 @@ static int	zoom_event(int keycode, t_fdf *fdf)
 	{
 		fdf->flag.zoom -= 1;
 		fdf->flag.h = fdf->flag.h_modifier * fdf->flag.zoom;
+	}
+	return (0);
+}
+
+static int	color_event(int keycode, t_fdf *fdf)
+{
+	if (keycode == KEY_C)
+	{
+		fdf->flag.color = !fdf->flag.color;
 	}
 	return (0);
 }
@@ -83,8 +87,8 @@ int	events(int keycode, t_fdf *fdf)
 {
 	if (keycode == KEY_ESC)
 		exit_fdf(fdf);
-	move_event(keycode, fdf);
-	zoom_event(keycode, fdf);
+	move_zoom_event(keycode, fdf);
+	color_event(keycode, fdf);
 	height_event(keycode, fdf);
 	projection_event(keycode, fdf);
 	return (0);
