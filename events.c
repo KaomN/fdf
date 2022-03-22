@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:21:38 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/21 13:52:05 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/22 16:04:48 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,7 @@ static int	move_zoom_event(int keycode, t_fdf *fdf)
 static int	color_event(int keycode, t_fdf *fdf)
 {
 	if (keycode == KEY_C)
-	{
 		fdf->flag.color = !fdf->flag.color;
-	}
 	return (0);
 }
 

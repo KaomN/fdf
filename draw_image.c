@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 16:37:44 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/21 13:26:33 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/22 12:58:09 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,26 @@
 
 static void	calc_delta(t_fdf *fdf)
 {
-	fdf->px.dx = fdf->px.x1 - fdf->px.x2;
-	if (fdf->px.dx < 0)
-		fdf->px.dx = -fdf->px.dx;
-	fdf->px.dy = fdf->px.y1 - fdf->px.y2;
-	if (fdf->px.dy < 0)
-		fdf->px.dy = -fdf->px.dy;
+	fdf->px.dx = abs((int)fdf->px.x1 - (int)fdf->px.x2);
+	fdf->px.dy = abs((int)fdf->px.y1 - (int)fdf->px.y2);
+}
+
+static void	get_max_min(t_fdf *fdf, int y, int x)
+{
+	if (fdf->map.max < fdf->map.map[y][x])
+		fdf->map.max = fdf->map.map[y][x];
+	if (fdf->map.min > fdf->map.map[y][x])
+		fdf->map.min = fdf->map.map[y][x];
+	fdf->map.curr_h = fdf->map.map[y][x];
+	fdf->map.next_h = fdf->map.map[y][x + 1];
 }
 
 static void	calc_line_horizontal(t_fdf *fdf, int y, int x)
 {
 	if (x == 0)
 	{
-		fdf->px.x1 = (400 - fdf->px.pad_w
-				- (fdf->flag.proj_x * y) * fdf->flag.zoom);
+		fdf->px.x1 = 400 - fdf->px.pad_w
+			- (fdf->flag.proj_x * y) * fdf->flag.zoom;
 		fdf->px.y1 = ((fdf->flag.proj_y * y) * fdf->flag.zoom + fdf->px.pad_h
 				- fdf->flag.zoom * 20) - fdf->map.map[y][x] * fdf->flag.h / 10;
 	}
@@ -41,6 +47,7 @@ static void	calc_line_horizontal(t_fdf *fdf, int y, int x)
 	fdf->px.curr_color = fdf->map.color[y][x];
 	fdf->px.next_color = fdf->map.color[y][x + 1];
 	calc_delta(fdf);
+	get_max_min(fdf, y, x);
 	if (fdf->px.dx > fdf->px.dy)
 		draw_line_dx(fdf, 0);
 	else
@@ -67,6 +74,8 @@ static void	calc_line_vertical(t_fdf *fdf, int y, int x)
 	fdf->px.y2 = fdf->px.z + fdf->px.y1 + (fdf->flag.proj_y * fdf->flag.zoom);
 	fdf->px.curr_color = fdf->map.color[x][y];
 	fdf->px.next_color = fdf->map.color[x + 1][y];
+	fdf->map.curr_h = fdf->map.map[x][y];
+	fdf->map.next_h = fdf->map.map[x + 1][y];
 	calc_delta(fdf);
 	if (fdf->px.dx > fdf->px.dy)
 		draw_line_dx(fdf, 0);

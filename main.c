@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 11:11:50 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/22 11:18:35 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/22 16:03:14 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	main(void)
 	size_t	size;
 
 	size = 32;
-	fd = open("42.fdf", O_RDONLY);
+	fd = open("t1.fdf", O_RDONLY);
 	ft_bzero(&fdf, sizeof(t_fdf));
 	if (fd < 0)
 		ft_putstr("Error\n");
@@ -106,5 +106,6 @@ int	main(void)
 	get_line(&fdf, fd, size);
 	initialize_fdf(&fdf);
 	initialize_mlx(&fdf);
+	close (fd);
 	return (0);
 }

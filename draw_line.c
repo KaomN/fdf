@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:42:04 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/21 13:51:10 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/22 11:43:30 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,13 +86,13 @@ void	draw_line_dx(t_fdf *fdf, int check)
 		increment_decrement(fdf, 'x');
 		if (pk < 0)
 		{
-			decider_dx(fdf, check, coloring(fdf, i, fdf->px.dx));
+			decider_dx(fdf, check, color_flag(fdf, i, fdf->px.dx));
 			pk = pk + 2 * fdf->px.dy;
 		}
 		else
 		{
 			increment_decrement(fdf, 'y');
-			decider_dx(fdf, check, coloring(fdf, i, fdf->px.dx));
+			decider_dx(fdf, check, color_flag(fdf, i, fdf->px.dx));
 			pk = pk + 2 * fdf->px.dy - 2 * fdf->px.dx;
 		}
 	}
@@ -110,13 +110,13 @@ void	draw_line_dy(t_fdf *fdf, int check)
 		increment_decrement(fdf, 'y');
 		if (pk < 0)
 		{
-			decider_dy(fdf, check, coloring(fdf, i, fdf->px.dy));
+			decider_dy(fdf, check, color_flag(fdf, i, fdf->px.dy));
 			pk = pk + 2 * fdf->px.dx;
 		}
 		else
 		{
 			increment_decrement(fdf, 'x');
-			decider_dy(fdf, check, coloring(fdf, i, fdf->px.dy));
+			decider_dy(fdf, check, color_flag(fdf, i, fdf->px.dy));
 			pk = pk + 2 * fdf->px.dx - 2 * fdf->px.dy;
 		}
 	}
