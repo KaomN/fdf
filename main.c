@@ -6,18 +6,11 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 11:11:50 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/21 13:45:46 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/22 10:56:07 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-int	exit_fdf(t_fdf *fdf)
-{
-	mlx_destroy_image(fdf->mlx.mlx, fdf->mlx.img);
-	mlx_destroy_window(fdf->mlx.mlx, fdf->mlx.win);
-	exit (0);
-}
 
 static void	initialize_mlx(t_fdf *fdf)
 {
@@ -56,7 +49,7 @@ static void	initialize_fdf(t_fdf *fdf)
 	fdf->flag.projection = 0;
 }
 
-int	**inc_size(int **old_arr, int old_size, int new_size, int width)
+static int	**inc_size(int **old_arr, int old_size, int new_size, int width)
 {
 	int	**new_arr;
 	int	x;
@@ -74,7 +67,7 @@ int	**inc_size(int **old_arr, int old_size, int new_size, int width)
 	return (new_arr);
 }
 
-void	get_line(t_fdf *fdf, int fd, size_t size)
+static void	get_line(t_fdf *fdf, int fd, size_t size)
 {
 	char	*lines;
 
@@ -102,7 +95,7 @@ int	main(void)
 	size_t	size;
 
 	size = 32;
-	fd = open("42.fdf", O_RDONLY);
+	fd = open("t1.fdf", O_RDONLY);
 	ft_bzero(&fdf, sizeof(t_fdf));
 	if (fd < 0)
 		ft_putstr("Error\n");

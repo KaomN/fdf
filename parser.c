@@ -6,24 +6,11 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 16:42:19 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/14 14:37:36 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/22 10:58:45 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-static void	error_exit(char **lines)
-{
-	int	x;
-
-	x = 0;
-	while (lines[x] != NULL)
-	{
-		free(lines[x++]);
-	}
-	free(lines);
-	exit (0);
-}
 
 static int	get_width(char **arr)
 {

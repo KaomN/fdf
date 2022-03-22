@@ -6,7 +6,7 @@
 #    By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/07 11:30:11 by conguyen          #+#    #+#              #
-#    Updated: 2022/03/21 13:47:24 by conguyen         ###   ########.fr        #
+#    Updated: 2022/03/22 10:59:11 by conguyen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ CFILES += parser.c
 CFILES += color_parser.c
 CFILES += parser_check.c
 CFILES += color.c
+CFILES += exit.c
 
 OBJ = $(CFILES:.c=.o)
 
@@ -38,7 +39,7 @@ $(NAME):
 #	$(CC) $(CFILES) $(CFLAGS) -L/usr/local/lib/ -lmlx -Llibft -lft -framework OpenGL -framework AppKit
 #	Compile on Linux
 #	$(CC) $(CFILES) $(CFLAGS) -L./mlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -L. libft/libft.a -lm 
-	$(CC) $(LEAK) $(CFILES) -L./mlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -L. libft/libft.a -lm 
+	$(CC) $(LEAK) $(CFILES) $(CFLAGS) -L./mlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -L. libft/libft.a -lm 
 
 clean:
 	/bin/rm -f $(OBJ)

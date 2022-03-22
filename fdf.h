@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:19:43 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/21 13:45:26 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/22 10:58:59 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,9 +155,10 @@ int		color_fade(t_fdf *fdf, int mod, int distance);
 int		coloring(t_fdf *fdf, int mod, int distance);
 
 /*
-** main.c
+** exit.c
 */
 
 int		exit_fdf(t_fdf *fdf);
+void	error_exit(char **lines);
 
 #endif
