@@ -6,19 +6,19 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:19:43 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/22 10:58:59 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/22 11:11:22 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
-# include "mlx_linux/mlx.h"
-# include <mlx.h>
+# include "../mlx_linux/mlx.h"
+//# include <mlx.h>
 /* include "key_define_macschool.h" */
 # include "key_define.h"
 # include <stdlib.h>
-# include "libft/libft.h"
+# include "../libft/libft.h"
 # include <stdio.h>
 # include <math.h>
 

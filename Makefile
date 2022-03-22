@@ -6,16 +6,17 @@
 #    By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/07 11:30:11 by conguyen          #+#    #+#              #
-#    Updated: 2022/03/22 10:59:11 by conguyen         ###   ########.fr        #
+#    Updated: 2022/03/22 11:18:26 by conguyen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = fdf1
+NAME = fdf
 
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra
 LEAK = -fsanitize=leak
 LIBFT = libft/
+INCLUDES = -I ./includes
 
 CFILES += main.c
 CFILES += events.c
@@ -39,7 +40,8 @@ $(NAME):
 #	$(CC) $(CFILES) $(CFLAGS) -L/usr/local/lib/ -lmlx -Llibft -lft -framework OpenGL -framework AppKit
 #	Compile on Linux
 #	$(CC) $(CFILES) $(CFLAGS) -L./mlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -L. libft/libft.a -lm 
-	$(CC) $(LEAK) $(CFILES) $(CFLAGS) -L./mlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -L. libft/libft.a -lm 
+	$(CC) -c $(CFLAGS) $(INCLUDES) $(CFILES)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(INCLUDES) -L./mlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -L. libft/libft.a -lm
 
 clean:
 	/bin/rm -f $(OBJ)
