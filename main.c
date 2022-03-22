@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 11:11:50 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/22 16:03:14 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/22 16:19:12 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,16 @@ static int	**inc_size(int **old_arr, int old_size, int new_size, int width)
 	return (new_arr);
 }
 
-static void	get_line(t_fdf *fdf, int fd, size_t size)
+static void	get_line(t_fdf *fdf, size_t size, char *file)
 {
 	char	*lines;
+	int		fd;
 
+	fd = open(file, O_RDONLY);
+	if (fd < 0)
+		ft_putstr("Error\n");
+	if (fd < 0)
+		exit(0);
 	while (get_next_line(fd, &lines))
 	{
 		if (size == (unsigned int)fdf->map.height)
@@ -86,26 +92,25 @@ static void	get_line(t_fdf *fdf, int fd, size_t size)
 		fdf->map.height++;
 	}
 	free(lines);
+	close(fd);
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
-	int		fd;
 	t_fdf	fdf;
 	size_t	size;
 
 	size = 32;
-	fd = open("t1.fdf", O_RDONLY);
-	ft_bzero(&fdf, sizeof(t_fdf));
-	if (fd < 0)
-		ft_putstr("Error\n");
-	if (fd < 0)
-		return (0);
-	fdf.map.map = (int **)malloc(sizeof(int *) * size);
-	fdf.map.color = (int **)malloc(sizeof(int *) * size);
-	get_line(&fdf, fd, size);
-	initialize_fdf(&fdf);
-	initialize_mlx(&fdf);
-	close (fd);
+	if (argc == 2)
+	{
+		ft_bzero(&fdf, sizeof(t_fdf));
+		fdf.map.map = (int **)malloc(sizeof(int *) * size);
+		fdf.map.color = (int **)malloc(sizeof(int *) * size);
+		get_line(&fdf, size, argv[1]);
+		initialize_fdf(&fdf);
+		initialize_mlx(&fdf);
+	}
+	else
+		ft_putstr("usage: ./fdf map.fdf\n");
 	return (0);
 }

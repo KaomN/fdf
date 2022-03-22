@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:19:43 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/22 14:52:32 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/22 16:11:15 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,6 @@ typedef struct s_map
 	int	curr_h;
 	int	next_h;
 }	t_map;
-
-typedef struct s_pos
-{
-	int	x;
-	int	y;
-}	t_pos;
 
 typedef struct s_winsize
 {
@@ -155,7 +149,6 @@ int		check_color_line(char *line, t_fdf *fdf, int x);
 ** color.c
 */
 
-int		color_fade(t_fdf *fdf, int mod, int distance);
 int		color_flag(t_fdf *fdf, int mod, int distance);
 
 /*

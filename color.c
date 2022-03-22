@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 11:12:42 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/22 16:07:41 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/22 16:08:58 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,7 @@ static int	get_color_max(t_fdf *fdf, int map_height)
 		return (0xA22020);
 	if (map_height >= fdf->map.max * 0.10)
 		return (0x9B0000);
-	if (map_height >= 0)
-		return (0x009B00);
+	return (0x009B00);
 }
 
 static int	get_color_min(t_fdf *fdf, int map_height)
@@ -76,8 +75,7 @@ static int	get_color_min(t_fdf *fdf, int map_height)
 		return (0x0038AC);
 	if (map_height >= fdf->map.min * 0.90)
 		return (0x001CA1);
-	if (map_height >= fdf->map.min)
-		return (0x00009B);
+	return (0x00009B);
 }
 
 static int	height_color(t_fdf *fdf, int mod, int distance)
