@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:19:43 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/22 16:11:15 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/24 09:33:48 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,8 @@ void	draw_image(t_fdf *fdf);
 ** draw_line.c
 */
 
-void	draw_line_dx(t_fdf *fdf, int check);
-void	draw_line_dy(t_fdf *fdf, int check);
+void	draw_line_dx(t_fdf *fdf, t_linedata px, int check);
+void	draw_line_dy(t_fdf *fdf, t_linedata px, int check);
 
 /*
 ** parser.c
