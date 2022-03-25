@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:19:43 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/25 07:58:13 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/25 13:17:03 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "mlx_linux/mlx.h"
 //# include <mlx.h>
-/* include "key_define_macschool.h" */
+//#include "key_define_macschool.h"
 # include "key_define.h"
 # include <stdlib.h>
 # include "libft/libft.h"

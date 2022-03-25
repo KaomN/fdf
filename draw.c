@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 16:38:25 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/25 08:28:31 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/25 12:48:31 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,15 @@ void	draw_helper(t_fdf *fdf)
 
 	mlx = fdf->mlx.mlx;
 	win = fdf->mlx.win;
-	x = fdf->winsize.w - 160;
+	x = fdf->winsize.w - 260;
 	mlx_string_put(mlx, win, x - 20, 20, 0xFFFFFF, "Usage");
 	mlx_string_put(mlx, win, x, 50, 0xFFFFFF, "Move            Arrowkeys");
 	mlx_string_put(mlx, win, x, 75, 0xFFFFFF, "Move            W A S D");
-	mlx_string_put(mlx, win, x, 100, 0xFFFFFF, "Zoom            + -");
-	mlx_string_put(mlx, win, x, 125, 0xFFFFFF, "Projection      p");
-	mlx_string_put(mlx, win, x, 150, 0xFFFFFF, "Colortheme      c");
+	mlx_string_put(mlx, win, x, 100, 0xFFFFFF, "Height          + -");
+	mlx_string_put(mlx, win, x, 125, 0xFFFFFF, "Zoom in         I");
+	mlx_string_put(mlx, win, x, 150, 0xFFFFFF, "Zoom out        O");
+	mlx_string_put(mlx, win, x, 175, 0xFFFFFF, "Projection      P");
+	mlx_string_put(mlx, win, x, 200, 0xFFFFFF, "Colortheme      C");
 }
 
 void	my_mlx_pixel_put(t_fdf *fdf, int x, int y, int color)
