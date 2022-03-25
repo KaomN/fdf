@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 16:37:44 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/24 10:04:40 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/25 08:17:57 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void	calc_line_vertical(t_fdf *fdf, int y, int x)
 {
 	if (x == 0)
 	{
-		fdf->px.x1 = 400 - fdf->px.pad_w
+		fdf->px.x1 = 401 - fdf->px.pad_w
 			- (fdf->flag.proj_x * y) * fdf->flag.zoom;
 		fdf->px.y1 = ((fdf->flag.proj_y * y) * fdf->flag.zoom + fdf->px.pad_h
 				- fdf->flag.zoom * 20) - fdf->map.map[y][x] * fdf->flag.h / 10;

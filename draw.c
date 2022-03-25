@@ -6,11 +6,28 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 16:38:25 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/22 16:04:37 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/25 08:13:37 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+void	draw_helper(t_fdf *fdf)
+{
+	void	*mlx;
+	void	*win;
+	int		x;
+
+	mlx = fdf->mlx.mlx;
+	win = fdf->mlx.win;
+	x = fdf->winsize.w - 200;
+	mlx_string_put(mlx, win, x - 20, 20, 0xFFFFFF, "Usage");
+	mlx_string_put(mlx, win, x, 50, 0xFFFFFF, "Move            Arrowkeys");
+	mlx_string_put(mlx, win, x, 75, 0xFFFFFF, "Move            W A S D");
+	mlx_string_put(mlx, win, x, 100, 0xFFFFFF, "Zoom            + -");
+	mlx_string_put(mlx, win, x, 125, 0xFFFFFF, "Projection      p");
+	mlx_string_put(mlx, win, x, 150, 0xFFFFFF, "Colortheme      c");
+}
 
 void	my_mlx_pixel_put(t_fdf *fdf, int x, int y, int color)
 {
@@ -44,4 +61,8 @@ void	render_image(t_fdf *fdf)
 	clear_image(fdf);
 	draw_image(fdf);
 	mlx_put_image_to_window(fdf->mlx.mlx, fdf->mlx.win, fdf->mlx.img, 0, 0);
+	draw_helper(fdf);
+	mlx_key_hook(fdf->mlx.win, &events, fdf);
+	mlx_hook(fdf->mlx.win, 17, 0, &exit_fdf, fdf);
+	mlx_loop(fdf->mlx.mlx);
 }

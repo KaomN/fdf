@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:21:38 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/22 16:04:48 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/25 08:18:50 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,13 @@ static int	color_event(int keycode, t_fdf *fdf)
 static int	height_event(int keycode, t_fdf *fdf)
 {
 	if ((keycode == KEY_PLUS || keycode == KEY_PLUS_PAD)
-		&& fdf->flag.h < 15 * fdf->flag.zoom)
+		&& fdf->flag.h < 30 * fdf->flag.zoom)
 	{
 		fdf->flag.h_modifier += 1;
 		fdf->flag.h = (fdf->flag.h_modifier * fdf->flag.zoom);
 	}
 	if ((keycode == KEY_MINUS || keycode == KEY_MINUS_PAD)
-		&& fdf->flag.h > -15 * fdf->flag.zoom)
+		&& fdf->flag.h > -30 * fdf->flag.zoom)
 	{
 		fdf->flag.h_modifier -= 1;
 		fdf->flag.h = (fdf->flag.h_modifier * fdf->flag.zoom);

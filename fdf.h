@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:19:43 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/24 09:33:48 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/25 07:58:13 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ typedef struct s_fdf
 void	my_mlx_pixel_put(t_fdf *fdf, int x, int y, int color);
 void	clear_image(t_fdf *fdf);
 void	render_image(t_fdf *fdf);
+void	draw_helper(t_fdf *fdf);
 
 /* 
 ** events.c

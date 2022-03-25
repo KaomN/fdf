@@ -6,7 +6,7 @@
 /*   By: conguyen <conguyen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 11:11:50 by conguyen          #+#    #+#             */
-/*   Updated: 2022/03/22 16:19:12 by conguyen         ###   ########.fr       */
+/*   Updated: 2022/03/25 08:15:18 by conguyen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,13 @@ static void	initialize_mlx(t_fdf *fdf)
 	fdf->mlx.img = mlx_new_image(mlx, fdf->winsize.w, fdf->winsize.h);
 	fdf->mlx.addr = mlx_get_data_addr(fdf->mlx.img, &fdf->mlx.bits_per_pixel,
 			&fdf->mlx.line_length, &fdf->mlx.endian);
-	mlx_key_hook(fdf->mlx.win, &events, fdf);
-	mlx_hook(fdf->mlx.win, 17, 0, &exit_fdf, fdf);
-	render_image(fdf);
-	mlx_loop(fdf->mlx.mlx = mlx);
 }
 
 static void	initialize_fdf(t_fdf *fdf)
 {
 	fdf->flag.zoom = 3;
-	fdf->winsize.w = 1400;
-	fdf->winsize.h = 1000;
+	fdf->winsize.w = 1200;
+	fdf->winsize.h = 800;
 	fdf->px.pad_h = 250;
 	fdf->px.pad_w = 0;
 	fdf->flag.h_modifier = 1;
@@ -109,6 +105,7 @@ int	main(int argc, char **argv)
 		get_line(&fdf, size, argv[1]);
 		initialize_fdf(&fdf);
 		initialize_mlx(&fdf);
+		render_image(&fdf);
 	}
 	else
 		ft_putstr("usage: ./fdf map.fdf\n");
