@@ -14,8 +14,8 @@
 
 /*
 ** DESCRIPTION
-** ft_isalnum() function function tests for any character for which ft_isalpha() or
-** ft_isdigit() is true. The value of the argument must be representable as
+** ft_isalnum() function function tests for any character for which ft_isalpha()
+** or ft_isdigit() is true. The value of the argument must be representable as
 ** an unsigned char or the value of EOF.
 */
 
